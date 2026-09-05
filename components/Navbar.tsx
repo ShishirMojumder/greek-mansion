@@ -1,0 +1,2 @@
+import Link from "next/link";import {BrandLogo} from "@/components/BrandLogo";
+export function Navbar(){return <header className="sticky top-0 z-50 border-b border-navy/10 bg-marble/90 backdrop-blur"><div className="mx-auto flex h-20 max-w-[1440px] items-center px-3 md:px-10"><Link href="/" className="focus-ring" aria-label="Greek Mansion home"><BrandLogo className="w-[118px] sm:w-[155px] md:w-[230px]" priority/></Link></div></header>}

@@ -1,0 +1,1 @@
+export function SectionTitle({eyebrow,title,light=false,align="left"}:{eyebrow:string;title:string;light?:boolean;align?:"left"|"center"}){return <div className={align==="center"?"text-center":""}><p className={`eyebrow mb-5 ${light?"!text-white/65":""}`}>{eyebrow}</p><h2 className={`display text-5xl uppercase md:text-7xl ${light?"text-white":"text-navy"}`}>{title}</h2></div>}
