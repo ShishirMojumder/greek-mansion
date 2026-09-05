@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
 import { ArrowUpRight, MapPin, Phone, ShoppingBag } from "lucide-react";
-import { BrandLogo } from "@/components/BrandLogo";
 import { HandwritingText } from "@/components/ui/handwriting-text";
 
 const columns=[
@@ -18,7 +18,7 @@ const item:Variants={hidden:{opacity:0,y:28},visible:{opacity:1,y:0,transition:{
 export default function GreekMansionFooter(){return <footer className="marble px-4 py-8 md:px-8 md:py-12"><motion.div className="mx-auto max-w-[1400px]" initial="hidden" whileInView="visible" viewport={{once:true,margin:"-80px"}} variants={container}>
  <div className="flex flex-col gap-4 md:flex-row">
   <motion.div variants={item} className="footer-brand-card noise relative flex min-h-[430px] w-full flex-col justify-between overflow-hidden rounded-2xl bg-navy p-7 text-white md:min-h-[610px] md:w-[35%] md:p-10">
-   <div className="relative z-10 inline-block self-start rounded bg-marble px-3"><BrandLogo className="w-[210px] md:w-[250px]"/></div>
+   <Image src="/images/greek-mansion-logo-white.png" alt="Greek Mansion" width={1254} height={1254} priority className="relative z-10 -my-9 -ml-8 h-auto w-[340px] self-start md:-my-14 md:-ml-12 md:w-[430px]"/>
    <div aria-hidden className="absolute -right-12 top-24 font-serif text-[14rem] leading-none text-white/[.035]">Ω</div>
    <div className="relative z-10"><p className="eyebrow !text-gold">Authentic Greek Cuisine</p><h2 className="display mt-5 text-5xl uppercase md:text-6xl">Come hungry.</h2><div className="mt-2"><HandwritingText text="Leave as family" height="3.25rem" className="text-gold" duration={1.7}/></div><p className="mt-6 max-w-xs text-sm leading-7 text-white/60">Traditional recipes, open-flame cooking and warm Greek hospitality in the heart of Scarborough.</p>
     <div className="mt-8 flex flex-wrap gap-2"><a href="tel:+14162923333" aria-label="Call Greek Mansion" className="footer-action"><Phone size={16}/>Call</a><a href="https://maps.google.com/?q=5651+Steeles+Ave+E+Scarborough+ON" aria-label="Directions to Greek Mansion" className="footer-action"><MapPin size={16}/>Directions</a><a href="https://www.ubereats.com/ca/store/greek-mansion/2jMowxE1Ts6w_sOBYT_BQA?utm=greekfooddelivery.ca" target="_blank" rel="noreferrer" aria-label="Order Greek Mansion on Uber Eats" className="footer-action"><ShoppingBag size={16}/>Order</a></div>
