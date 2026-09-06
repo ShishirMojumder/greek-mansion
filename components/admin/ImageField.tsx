@@ -42,7 +42,7 @@ export function ImageField({ name, initial }: { name: string; initial?: string |
           </span>
         )}
         <div className="flex flex-wrap items-center gap-2">
-          <label className="inline-flex cursor-pointer items-center rounded-lg border border-[#1E2A78]/20 px-3 py-2 text-sm font-semibold text-[#1E2A78] hover:bg-white">
+          <label className="inline-flex cursor-pointer items-center rounded-full border border-[#1E2A78]/20 px-3 py-2 text-sm font-semibold text-[#1E2A78] hover:bg-white">
             {busy ? "Uploading…" : url ? "Replace" : "Upload image"}
             <input
               ref={inputRef}
@@ -54,7 +54,7 @@ export function ImageField({ name, initial }: { name: string; initial?: string |
             />
           </label>
           {url && (
-            <button type="button" onClick={() => setUrl("")} className="text-sm font-semibold text-[#C0392B] hover:underline">
+            <button type="button" onClick={() => setUrl("")} className="rounded-full px-3 py-2 text-sm font-semibold text-[#C0392B] transition hover:bg-[#C0392B]/10">
               Remove
             </button>
           )}

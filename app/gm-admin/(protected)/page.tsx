@@ -79,8 +79,8 @@ function Action({ href, children, primary = false }: { href: string; children: R
       href={href}
       className={
         primary
-          ? "rounded-lg bg-[#1E2A78] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#111936]"
-          : "rounded-lg border border-[#1E2A78]/20 px-4 py-2 text-sm font-semibold text-[#1E2A78] transition hover:bg-white"
+          ? "rounded-full bg-[#1E2A78] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#111936]"
+          : "rounded-full border border-[#1E2A78]/20 px-4 py-2 text-sm font-semibold text-[#1E2A78] transition hover:bg-white"
       }
     >
       {children}

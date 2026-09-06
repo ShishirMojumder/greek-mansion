@@ -33,7 +33,7 @@ export default async function SpecialsPage() {
         <h1 className="text-xl font-bold text-[#1E2A78]">Specials</h1>
         <Link
           href={`/gm-admin/menu/new?cat=${specials.id}`}
-          className="rounded-lg bg-[#1E2A78] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#111936]"
+          className="rounded-full bg-[#1E2A78] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#111936]"
         >
           + Add special
         </Link>
@@ -72,7 +72,7 @@ export default async function SpecialsPage() {
                   <AvailabilitySelect id={item.id} value={item.availability} />
                   <Link
                     href={`/gm-admin/menu/${item.id}`}
-                    className="rounded-lg border border-[#1E2A78]/20 px-4 py-2.5 text-sm font-semibold text-[#1E2A78] hover:bg-[#1E2A78] hover:text-white"
+                    className="rounded-full border border-[#1E2A78]/20 px-4 py-2.5 text-sm font-semibold text-[#1E2A78] hover:bg-[#1E2A78] hover:text-white"
                   >
                     Edit
                   </Link>

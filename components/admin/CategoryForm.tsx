@@ -30,19 +30,19 @@ export function CategoryForm({ category }: { category?: Category }) {
       </label>
 
       {state.error && (
-        <p role="alert" className="rounded-lg bg-[#C0392B]/10 px-3 py-2 text-sm text-[#C0392B]">{state.error}</p>
+        <p role="alert" className="rounded-full bg-[#C0392B]/10 px-3 py-2 text-sm text-[#C0392B]">{state.error}</p>
       )}
 
       <div className="flex gap-2">
         <button
           type="submit"
           disabled={pending}
-          className="rounded-lg bg-[#1E2A78] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#111936] disabled:opacity-60"
+          className="rounded-full bg-[#1E2A78] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#111936] disabled:opacity-60"
         >
           {pending ? "Saving…" : category ? "Save" : "Add category"}
         </button>
         {category && (
-          <Link href="/gm-admin/categories" className="rounded-lg border border-[#1E2A78]/20 px-4 py-2 text-sm font-semibold text-[#1E2A78]">
+          <Link href="/gm-admin/categories" className="rounded-full border border-[#1E2A78]/20 px-4 py-2 text-sm font-semibold text-[#1E2A78]">
             Cancel
           </Link>
         )}

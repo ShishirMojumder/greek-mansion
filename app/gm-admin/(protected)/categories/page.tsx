@@ -25,10 +25,10 @@ export default async function CategoriesPage({
       </div>
 
       {sp.ok && OK[sp.ok] && (
-        <p className="rounded-lg bg-[#1FA463]/10 px-3 py-2 text-sm text-[#12603a]">{OK[sp.ok]}</p>
+        <p className="rounded-full bg-[#1FA463]/10 px-3 py-2 text-sm text-[#12603a]">{OK[sp.ok]}</p>
       )}
       {sp.err === "notempty" && (
-        <p className="rounded-lg bg-[#C0392B]/10 px-3 py-2 text-sm text-[#C0392B]">
+        <p className="rounded-full bg-[#C0392B]/10 px-3 py-2 text-sm text-[#C0392B]">
           That category still has menu items. Move or delete them first, or set it inactive.
         </p>
       )}
@@ -61,7 +61,7 @@ export default async function CategoriesPage({
                   type="submit"
                   disabled={i === 0}
                   aria-label={`Move ${c.name} up`}
-                  className="rounded-md border border-[#1E2A78]/20 px-2.5 py-2 text-sm text-[#1E2A78] disabled:opacity-30"
+                  className="rounded-full border border-[#1E2A78]/20 px-2.5 py-2 text-sm text-[#1E2A78] disabled:opacity-30"
                 >
                   ↑
                 </button>
@@ -73,14 +73,14 @@ export default async function CategoriesPage({
                   type="submit"
                   disabled={i === categories.length - 1}
                   aria-label={`Move ${c.name} down`}
-                  className="rounded-md border border-[#1E2A78]/20 px-2.5 py-2 text-sm text-[#1E2A78] disabled:opacity-30"
+                  className="rounded-full border border-[#1E2A78]/20 px-2.5 py-2 text-sm text-[#1E2A78] disabled:opacity-30"
                 >
                   ↓
                 </button>
               </form>
               <Link
                 href={`/gm-admin/categories?edit=${c.id}`}
-                className="rounded-md border border-[#1E2A78]/20 px-3 py-2 text-sm font-semibold text-[#1E2A78] hover:bg-[#1E2A78] hover:text-white"
+                className="rounded-full border border-[#1E2A78]/20 px-3 py-2 text-sm font-semibold text-[#1E2A78] hover:bg-[#1E2A78] hover:text-white"
               >
                 Edit
               </Link>
@@ -88,7 +88,7 @@ export default async function CategoriesPage({
                 <input type="hidden" name="id" value={c.id} />
                 <ConfirmButton
                   message={`Delete "${c.name}"? Only works if it has no items.`}
-                  className="rounded-md border border-[#C0392B]/30 px-3 py-2 text-sm font-semibold text-[#C0392B] hover:bg-[#C0392B] hover:text-white"
+                  className="rounded-full border border-[#C0392B]/30 px-3 py-2 text-sm font-semibold text-[#C0392B] hover:bg-[#C0392B] hover:text-white"
                 >
                   Delete
                 </ConfirmButton>

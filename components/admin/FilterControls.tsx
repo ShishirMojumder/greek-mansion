@@ -26,7 +26,7 @@ export function FilterControls({
         name="cat"
         defaultValue={cat}
         onChange={(e) => e.currentTarget.form?.requestSubmit()}
-        className="rounded-lg border border-[#1E2A78]/20 px-3 py-2.5 text-sm outline-none focus:border-[#C9A227]"
+        className="rounded-full border border-[#1E2A78]/20 px-3 py-2.5 text-sm outline-none focus:border-[#C9A227]"
       >
         <option value="">All categories</option>
         {categories.map((c) => (
@@ -37,7 +37,7 @@ export function FilterControls({
       </select>
       <button
         type="submit"
-        className="rounded-lg border border-[#1E2A78]/20 px-4 py-2.5 text-sm font-semibold text-[#1E2A78] hover:bg-white"
+        className="rounded-full border border-[#1E2A78]/20 px-4 py-2.5 text-sm font-semibold text-[#1E2A78] hover:bg-white"
       >
         Search
       </button>

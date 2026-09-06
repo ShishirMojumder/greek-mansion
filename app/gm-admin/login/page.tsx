@@ -40,7 +40,7 @@ export default function AdminLogin() {
           </label>
 
           {state.error && (
-            <p role="alert" className="rounded-lg bg-[#C0392B]/10 px-3 py-2 text-sm text-[#C0392B]">
+            <p role="alert" className="rounded-full bg-[#C0392B]/10 px-3 py-2 text-sm text-[#C0392B]">
               {state.error}
             </p>
           )}
@@ -48,7 +48,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={pending}
-            className="w-full rounded-lg bg-[#1E2A78] px-4 py-3 text-sm font-semibold uppercase tracking-[.14em] text-white transition hover:bg-[#111936] disabled:opacity-60"
+            className="w-full rounded-full bg-[#1E2A78] px-4 py-3 text-sm font-semibold uppercase tracking-[.14em] text-white transition hover:bg-[#111936] disabled:opacity-60"
           >
             {pending ? "Signing in…" : "Sign in"}
           </button>

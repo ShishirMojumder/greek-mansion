@@ -100,7 +100,7 @@ export function ItemForm({
         </label>
       </div>
 
-      <details className="rounded-lg border border-[#1E2A78]/12 bg-white p-3">
+      <details className="rounded-full border border-[#1E2A78]/12 bg-white p-3">
         <summary className="cursor-pointer text-sm font-semibold text-[#111936]/70">
           Availability window <span className="font-normal text-[#111936]/40">(optional — for specials)</span>
         </summary>
@@ -117,18 +117,18 @@ export function ItemForm({
       </details>
 
       {state.error && (
-        <p role="alert" className="rounded-lg bg-[#C0392B]/10 px-3 py-2 text-sm text-[#C0392B]">{state.error}</p>
+        <p role="alert" className="rounded-full bg-[#C0392B]/10 px-3 py-2 text-sm text-[#C0392B]">{state.error}</p>
       )}
 
       <div className="flex gap-3 border-t border-[#1E2A78]/12 pt-5">
         <button
           type="submit"
           disabled={pending}
-          className="rounded-lg bg-[#1E2A78] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#111936] disabled:opacity-60"
+          className="rounded-full bg-[#1E2A78] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#111936] disabled:opacity-60"
         >
           {pending ? "Saving…" : item ? "Save changes" : "Create item"}
         </button>
-        <Link href="/gm-admin/menu" className="rounded-lg border border-[#1E2A78]/20 px-5 py-2.5 text-sm font-semibold text-[#1E2A78] transition hover:bg-white">
+        <Link href="/gm-admin/menu" className="rounded-full border border-[#1E2A78]/20 px-5 py-2.5 text-sm font-semibold text-[#1E2A78] transition hover:bg-white">
           Cancel
         </Link>
       </div>

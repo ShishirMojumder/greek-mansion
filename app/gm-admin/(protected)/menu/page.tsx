@@ -51,14 +51,14 @@ export default async function MenuAdminPage({
         <h1 className="text-xl font-bold text-[#1E2A78]">Menu</h1>
         <Link
           href="/gm-admin/menu/new"
-          className="rounded-lg bg-[#1E2A78] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#111936]"
+          className="rounded-full bg-[#1E2A78] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#111936]"
         >
           + Add menu item
         </Link>
       </div>
 
       {sp.ok && OK[sp.ok] && (
-        <p className="rounded-lg bg-[#1FA463]/10 px-3 py-2 text-sm text-[#12603a]">{OK[sp.ok]}</p>
+        <p className="rounded-full bg-[#1FA463]/10 px-3 py-2 text-sm text-[#12603a]">{OK[sp.ok]}</p>
       )}
 
       <div className="flex flex-wrap gap-1">
@@ -66,7 +66,7 @@ export default async function MenuAdminPage({
           <Link
             key={t.key}
             href={qs({ status: t.key })}
-            className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${
+            className={`rounded-full px-3 py-2 text-sm font-semibold transition ${
               status === t.key ? "bg-[#1E2A78] text-white" : "border border-[#1E2A78]/20 text-[#1E2A78] hover:bg-white"
             }`}
           >
@@ -123,7 +123,7 @@ export default async function MenuAdminPage({
                       <AvailabilitySelect id={item.id} value={item.availability} />
                       <Link
                         href={`/gm-admin/menu/${item.id}`}
-                        className="rounded-lg border border-[#1E2A78]/20 px-4 py-2.5 text-sm font-semibold text-[#1E2A78] hover:bg-[#1E2A78] hover:text-white"
+                        className="rounded-full border border-[#1E2A78]/20 px-4 py-2.5 text-sm font-semibold text-[#1E2A78] hover:bg-[#1E2A78] hover:text-white"
                       >
                         Edit
                       </Link>

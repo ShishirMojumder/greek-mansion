@@ -40,7 +40,7 @@ export function VariantEditor({ initial }: { initial: VariantRow[] }) {
             <button
               type="button"
               onClick={() => setRows((r) => r.filter((_, j) => j !== i))}
-              className="rounded-md px-2 py-1 text-xs font-semibold text-[#C0392B] hover:bg-[#C0392B]/10"
+              className="rounded-full px-2 py-1 text-xs font-semibold text-[#C0392B] hover:bg-[#C0392B]/10"
             >
               Remove
             </button>
@@ -50,7 +50,7 @@ export function VariantEditor({ initial }: { initial: VariantRow[] }) {
       <button
         type="button"
         onClick={() => setRows((r) => [...r, { name: "", price: "", is_available: true }])}
-        className="text-sm font-semibold text-[#1E2A78] hover:underline"
+        className="rounded-full border border-[#1E2A78]/20 px-3 py-2 text-sm font-semibold text-[#1E2A78] transition hover:bg-white"
       >
         + Add size / option
       </button>

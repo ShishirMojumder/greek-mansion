@@ -36,7 +36,7 @@ export default async function EditItemPage({ params }: { params: Promise<{ id: s
         <input type="hidden" name="id" value={item.id} />
         <ConfirmButton
           message={`Delete "${item.name}"? This cannot be undone. (To hide it instead, set Availability to Hidden.)`}
-          className="rounded-lg border border-[#C0392B]/30 px-4 py-2.5 text-sm font-semibold text-[#C0392B] transition hover:bg-[#C0392B] hover:text-white"
+          className="rounded-full border border-[#C0392B]/30 px-4 py-2.5 text-sm font-semibold text-[#C0392B] transition hover:bg-[#C0392B] hover:text-white"
         >
           Delete this item
         </ConfirmButton>

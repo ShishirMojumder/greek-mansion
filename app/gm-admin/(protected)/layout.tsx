@@ -23,7 +23,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
           <form action="/gm-admin/logout" method="post">
             <button
               type="submit"
-              className="rounded-lg border border-[#1E2A78]/20 px-4 py-2 text-sm font-semibold text-[#1E2A78] transition hover:bg-[#1E2A78] hover:text-white"
+              className="rounded-full border border-[#1E2A78]/20 px-4 py-2 text-sm font-semibold text-[#1E2A78] transition hover:bg-[#1E2A78] hover:text-white"
             >
               Log out
             </button>
@@ -36,7 +36,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
           <Link
             key={n.href}
             href={n.href}
-            className="rounded-lg px-3 py-2 text-sm font-medium text-[#1E2A78]/70 transition hover:bg-white hover:text-[#1E2A78]"
+            className="rounded-full px-3 py-2 text-sm font-medium text-[#1E2A78]/70 transition hover:bg-white hover:text-[#1E2A78]"
           >
             {n.label}
           </Link>
