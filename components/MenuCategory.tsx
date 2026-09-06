@@ -49,13 +49,15 @@ export function MenuCategory({ category, index }: { category: PublicCategory; in
                   </h3>
                   {item.description && <p className="mt-1.5 text-sm leading-6 text-ink/55">{item.description}</p>}
                 </div>
-                <span className="max-w-[44%] shrink-0 text-right font-label text-sm font-semibold leading-6 tracking-wide text-gold md:text-base">
+                <span className="max-w-[44%] shrink-0 text-right font-label text-sm font-semibold leading-7 tracking-wide md:text-base">
                   {item.availability === "sold_out_today" ? (
                     <span className="text-navy/45">Sold out today</span>
                   ) : item.availability === "temporarily_unavailable" ? (
                     <span className="text-navy/45">Temporarily unavailable</span>
                   ) : (
-                    item.price_text
+                    <span className="box-decoration-clone rounded-md bg-navy px-2.5 py-1 text-white">
+                      {item.price_text}
+                    </span>
                   )}
                 </span>
               </article>
