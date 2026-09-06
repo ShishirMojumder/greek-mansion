@@ -6,7 +6,7 @@ import { getPublicMenu } from "@/lib/menu";
 export const metadata: Metadata = {
   title: "Menu",
   description:
-    "Explore Greek Mansion's menu of authentic souvlaki, gyro, Greek plates, family meals and desserts in Scarborough.",
+    "Explore Greek Mansion's menu of souvlaki, gyro, Greek plates, family meals and desserts in Scarborough.",
 };
 
 const anchor = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-");

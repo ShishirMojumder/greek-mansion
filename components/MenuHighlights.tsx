@@ -10,7 +10,7 @@ import type { FeaturedItem } from "@/lib/menu";
 
 const fallback = [
   { name: "Chicken Souvlaki Wrap", category: "Mansion Wraps", image: "/images/real-food/greekmansion-chickenwrap-native.jpg" },
-  { name: "Traditional Gyro Wrap", category: "Greek classics", image: "/images/real-food/greekmansion-gyrowrap-native.jpg" },
+  { name: "Gyro Wrap", category: "Greek classics", image: "/images/real-food/greekmansion-gyrowrap-native.jpg" },
   { name: "Greek Fries with Feta", category: "Appetizers", image: "/images/real-food/greek-fries.jpg" },
   { name: "Chicken Souvlaki Sandwich", category: "Sandwiches on a Bun", image: "/images/real-food/chicken-sandwich.jpg" },
 ];

@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 
-// Greek Mansion Google Business Profile — opens the write-a-review dialog directly.
 const GOOGLE_REVIEW_URL = "https://g.page/r/CWjzqGR7i7IAEBM/review";
+
+const RADIUS = 44;
+const TEXT = "LEAVE US A REVIEW • LEAVE US A REVIEW • ";
 
 export default function ReviewFab() {
   return (
@@ -14,13 +16,54 @@ export default function ReviewFab() {
       aria-label="Leave Greek Mansion a review on Google"
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1.2, duration: .5, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -3 }}
-      whileTap={{ scale: .96 }}
-      className="group fixed bottom-5 right-5 z-40 hidden items-center gap-2.5 rounded-full border border-gold/60 bg-navy py-3 pl-3.5 pr-4 shadow-xl shadow-navy/30 transition-colors hover:bg-ink md:inline-flex"
+      transition={{ delay: 1.2, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ scale: 1.08 }}
+      whileTap={{ scale: 0.94 }}
+      className="fixed bottom-6 right-6 z-[9999] hidden md:flex"
+      style={{ width: 120, height: 120 }}
     >
-      <span className="text-base leading-none transition-transform duration-300 group-hover:rotate-[18deg] group-hover:scale-110">⭐</span>
-      <span className="font-label text-[11px] font-semibold uppercase tracking-[.14em] text-white">Leave us a review</span>
+      <motion.div
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="relative flex items-center justify-center"
+        style={{ width: 120, height: 120 }}
+      >
+        {/* Solid navy circle — blocks everything underneath */}
+        <div className="absolute inset-0 rounded-full bg-navy border border-gold/60 shadow-2xl shadow-black/40" />
+
+        {/* Rotating curved text ribbon */}
+        <motion.svg
+          viewBox="0 0 120 120"
+          className="absolute inset-0"
+          style={{ width: 120, height: 120 }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+        >
+          <defs>
+            <path
+              id="circle-path"
+              d={`M 60,60 m -${RADIUS},0 a ${RADIUS},${RADIUS} 0 1,1 ${RADIUS * 2},0 a ${RADIUS},${RADIUS} 0 1,1 -${RADIUS * 2},0`}
+            />
+          </defs>
+          <text
+            style={{
+              fontSize: 9.5,
+              fontFamily: "var(--font-label, sans-serif)",
+              fontWeight: 700,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              fill: "#C9A84C",
+            }}
+          >
+            <textPath href="#circle-path" startOffset="0%">
+              {TEXT}
+            </textPath>
+          </text>
+        </motion.svg>
+
+        {/* Center star */}
+        <span className="relative z-10 text-2xl select-none">⭐</span>
+      </motion.div>
     </motion.a>
   );
 }

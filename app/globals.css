@@ -6,6 +6,8 @@
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--marble);color:var(--ink);font-family:var(--font-poppins),Poppins,Arial,sans-serif;font-weight:400}::selection{background:#1E2A78;color:white}
 .marble{background-color:#F8F5ED;background-image:radial-gradient(ellipse at 15% 20%,rgba(30,42,120,.045),transparent 26%),radial-gradient(ellipse at 80% 70%,rgba(201,162,39,.06),transparent 30%)}
 .eyebrow{font-family:var(--font-norwester),"Arial Narrow",sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:400;color:#1E2A78}.display{font-family:var(--font-zuume),Impact,"Arial Narrow",sans-serif;font-weight:700;line-height:.84;letter-spacing:.01em}.font-serif{font-weight:700;letter-spacing:.01em}
+/* Greek-Freak accent: the storefront signage face. Latin caps only — it has no Greek letters, middot (·), em dash (—) or ©, so keep it to short A-Z/0-9 words. Sized up 1.06em because its caps run shorter and lighter than Poppins Bold. */
+.accent{font-family:var(--font-greek),Impact,"Arial Narrow",sans-serif;font-weight:400;font-size:1.06em;letter-spacing:.02em;text-transform:uppercase;display:inline-block}
 .font-label,nav a,button{font-family:var(--font-norwester),"Arial Narrow",sans-serif}
 .hero-glass{border:1px solid rgba(30,42,120,.18);box-shadow:0 18px 40px -24px rgba(17,25,54,.4),inset 0 1px 1px rgba(255,255,255,.8);backdrop-filter:blur(16px);transition:border-color .3s,background-color .3s}.hero-glass:not(.bg-navy){background:rgba(255,255,255,.46)}.hero-glass:hover{border-color:#C9A227}
 .hero-marquee{animation:hero-marquee 34s linear infinite}@keyframes hero-marquee{to{transform:translateX(-50%)}}@keyframes fadeIn{from{opacity:0}to{opacity:1}}
