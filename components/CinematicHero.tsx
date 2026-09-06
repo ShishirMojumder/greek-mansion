@@ -36,7 +36,7 @@ export default function CinematicHero() {
   }, { scope: sectionRef });
 
   return <section ref={sectionRef} className="cinematic-hero noise relative min-h-[calc(100svh-80px)] overflow-hidden bg-ink">
-    <motion.div ref={bgRef} className="absolute inset-0" initial={{scale:1.035,opacity:0}} animate={{scale:1,opacity:1}} transition={{duration:1.5,ease}}><Image src="/images/hero-greek-wraps.png" alt="Greek chicken wraps, fries, salad and mezze arranged on a sunlit table" fill priority className="object-cover object-[62%_50%] md:object-center" sizes="100vw"/></motion.div>
+    <motion.div ref={bgRef} className="absolute inset-0" initial={{scale:1.035,opacity:0}} animate={{scale:1,opacity:1}} transition={{duration:1.5,ease}}><Image src="/images/real-food/hero.jpg" alt="A table filled with real Greek Mansion plates, wraps, salad, calamari and fries" fill priority className="object-cover object-[58%_50%] md:object-center" sizes="100vw"/></motion.div>
     <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,25,54,.92)_0%,rgba(30,42,120,.80)_34%,rgba(17,25,54,.38)_63%,rgba(17,25,54,.16)_100%)] max-md:bg-[linear-gradient(180deg,rgba(17,25,54,.74),rgba(17,25,54,.84))]"/>
     <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_48%,transparent_0%,transparent_28%,rgba(17,25,54,.24)_100%)]"/>
     <motion.div className="absolute left-0 top-0 z-10 w-full overflow-hidden border-b border-white/15 bg-ink/55 py-3.5 backdrop-blur-md" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .45, duration: .8, ease }}>

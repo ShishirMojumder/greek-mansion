@@ -27,7 +27,7 @@ export default function Catering() {
         <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-stretch">
           <article className="group order-2 overflow-hidden rounded-[28px] bg-white p-3 shadow-2xl shadow-navy/10 ring-1 ring-navy/10 md:p-4 lg:order-1">
             <div className="relative h-full min-h-[340px] overflow-hidden rounded-[20px] bg-marble">
-              <Image src="/images/catering-boxes.png" alt="Greek Mansion Family Catering boxes and foil trays packed at the counter" fill className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]" sizes="(max-width:1024px) 100vw, 560px" />
+              <Image src="/images/real-food/greekmansion-familymeal-native.jpg" alt="A real Greek Mansion family meal prepared for sharing" fill className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]" sizes="(max-width:1024px) 100vw, 560px" />
             </div>
           </article>
 
@@ -52,7 +52,7 @@ export default function Catering() {
           })}</div>
         </div>
         <div className="relative aspect-[4/5] overflow-hidden rounded-[24px]">
-          <Image src="/images/catering-boxes.png" alt="Stacked Greek Mansion Family Catering boxes with foil trays and pita at the counter" fill className="object-cover object-center" sizes="(max-width:768px) 100vw, 560px" />
+          <Image src="/images/real-food/hero.jpg" alt="A generous spread of real Greek Mansion food for a group" fill className="object-cover object-center" sizes="(max-width:768px) 100vw, 560px" />
         </div>
       </div>
     </section>

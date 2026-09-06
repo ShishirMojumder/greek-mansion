@@ -5,9 +5,9 @@ import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import type { FeaturedItem } from "@/lib/menu";
 
 const fallback: CoverflowSlide[] = [
-  { src: "/images/features/gyro-pita.png", alt: "Greek gyro pita with tzatziki, tomato, red onion and seasoned fries", title: "Gyro Pita", subtitle: "A house classic", meta: "Tender gyro, crisp vegetables and cool tzatziki wrapped in a warm pita." },
-  { src: "/images/features/gyro-platter.png", alt: "Generous gyro pita and seasoned fries served against a Greek island setting", title: "Mansion Gyro", subtitle: "Made generously", meta: "A satisfying Greek favourite served fresh with golden seasoned fries." },
-  { src: "/images/features/lamb-chops.png", alt: "Grilled lamb chops with Greek potatoes, salad and tzatziki", title: "Lamb Chops", subtitle: "From the flame", meta: "Herb-seasoned lamb chops grilled over flame and served with classic Greek sides." },
+  { src: "/images/real-food/greekmansion-gyrowrap-native.jpg", alt: "Real Greek Mansion gyro wrap", title: "Gyro Wrap", subtitle: "A house classic", meta: "Tender gyro and fresh vegetables wrapped in warm pita." },
+  { src: "/images/real-food/greekmansion-steakdinner-native.jpg", alt: "Real Greek Mansion steak dinner", title: "Steak Dinner", subtitle: "Made generously", meta: "Grilled steak served with rice, potatoes, Greek salad, pita and tzatziki." },
+  { src: "/images/real-food/greek-fries.jpg", alt: "Real Greek Mansion fries topped with feta", title: "Greek Fries", subtitle: "A crowd favourite", meta: "Golden fries finished generously with crumbled feta." },
 ];
 
 export default function FeaturedDishes({ items }: { items?: FeaturedItem[] }) {

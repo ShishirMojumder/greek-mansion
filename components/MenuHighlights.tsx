@@ -9,10 +9,10 @@ import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import type { FeaturedItem } from "@/lib/menu";
 
 const fallback = [
-  { name: "Chicken Souvlaki Wrap", category: "Mansion Wraps", image: "/images/menu/wrap-02.png" },
-  { name: "Traditional Gyro Wrap", category: "Greek classics", image: "/images/menu/wrap-03.png" },
-  { name: "Greek Fries with Feta", category: "Appetizers", image: "/images/menu/appetizer-04.png" },
-  { name: "Chicken Souvlaki Sandwich", category: "Sandwiches on a Bun", image: "/images/menu/sandwich-01.png" },
+  { name: "Chicken Souvlaki Wrap", category: "Mansion Wraps", image: "/images/real-food/greekmansion-chickenwrap-native.jpg" },
+  { name: "Traditional Gyro Wrap", category: "Greek classics", image: "/images/real-food/greekmansion-gyrowrap-native.jpg" },
+  { name: "Greek Fries with Feta", category: "Appetizers", image: "/images/real-food/greek-fries.jpg" },
+  { name: "Chicken Souvlaki Sandwich", category: "Sandwiches on a Bun", image: "/images/real-food/chicken-sandwich.jpg" },
 ];
 
 // Subtle editorial variation per card — resting tilt + gentle arc (px).
