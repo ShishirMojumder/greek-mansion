@@ -3,3 +3,10 @@ node_modules
 out
 .DS_Store
 *.log
+
+# environment / secrets — never commit
+.env
+.env.local
+.env*.local
+.env.development
+.env.production

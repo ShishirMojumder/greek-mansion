@@ -1,0 +1,5 @@
+{
+  "crons": [
+    { "path": "/api/cron/reset-soldout", "schedule": "10 8 * * *" }
+  ]
+}
