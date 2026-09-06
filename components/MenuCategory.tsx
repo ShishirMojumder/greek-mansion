@@ -31,6 +31,7 @@ export function MenuCategory({ category, index }: { category: PublicCategory; in
           {category.items.map((item, itemIndex) => {
             const off = item.availability !== "available";
             const badgeText = item.badge ? cap(item.badge) : item.is_featured ? "Popular" : null;
+            const prices = item.price_text.split(" · ");
             return (
               <article
                 key={`${item.name}-${itemIndex}`}
@@ -49,14 +50,18 @@ export function MenuCategory({ category, index }: { category: PublicCategory; in
                   </h3>
                   {item.description && <p className="mt-1.5 text-sm leading-6 text-ink/55">{item.description}</p>}
                 </div>
-                <span className="max-w-[44%] shrink-0 text-right font-label text-sm font-semibold leading-7 tracking-wide md:text-base">
+                <span className="max-w-[48%] shrink-0 text-right font-label text-sm font-semibold tracking-wide md:max-w-[52%] md:text-base">
                   {item.availability === "sold_out_today" ? (
                     <span className="text-navy/45">Sold out today</span>
                   ) : item.availability === "temporarily_unavailable" ? (
                     <span className="text-navy/45">Temporarily unavailable</span>
                   ) : (
-                    <span className="box-decoration-clone rounded-md bg-navy px-2.5 py-1 text-white">
-                      {item.price_text}
+                    <span className="flex flex-col items-end gap-2.5 md:flex-row md:flex-wrap md:justify-end md:gap-2">
+                      {prices.map((price) => (
+                        <span key={price} className="whitespace-nowrap rounded-md bg-gold px-3 py-1.5 leading-5 text-black">
+                          {price}
+                        </span>
+                      ))}
                     </span>
                   )}
                 </span>
