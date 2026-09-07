@@ -8,8 +8,8 @@ export default async function NewItemPage({ searchParams }: { searchParams: Prom
   return (
     <div className="mx-auto max-w-[640px] space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-[#1E2A78]">New menu item</h1>
-        <Link href="/gm-admin/menu" className="text-sm font-semibold text-[#1E2A78]/70 hover:text-[#1E2A78]">
+        <h1 className="text-xl font-bold text-navy">New menu item</h1>
+        <Link href="/gm-admin/menu" className="text-sm font-semibold text-navy/70 hover:text-navy">
           ← Menu
         </Link>
       </div>

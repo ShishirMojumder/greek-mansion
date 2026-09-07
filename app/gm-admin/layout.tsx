@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function GmAdminRootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#F3F4FB] text-[#111936] antialiased">
+    <div className="min-h-screen bg-marble text-ink antialiased">
       {children}
     </div>
   );

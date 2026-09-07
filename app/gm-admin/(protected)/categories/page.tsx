@@ -18,8 +18,8 @@ export default async function CategoriesPage({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-[#1E2A78]">Categories</h1>
-        <Link href="/gm-admin/menu" className="text-sm font-semibold text-[#1E2A78]/70 hover:text-[#1E2A78]">
+        <h1 className="text-xl font-bold text-navy">Categories</h1>
+        <Link href="/gm-admin/menu" className="text-sm font-semibold text-navy/70 hover:text-navy">
           Menu →
         </Link>
       </div>
@@ -35,19 +35,19 @@ export default async function CategoriesPage({
 
       <CategoryForm category={editing} />
 
-      <ul className="divide-y divide-[#1E2A78]/10 overflow-hidden rounded-xl border border-[#1E2A78]/12 bg-white">
+      <ul className="divide-y divide-navy/10 overflow-hidden rounded-xl border border-navy/12 bg-white">
         {categories.map((c, i) => (
           <li key={c.id} className="flex flex-wrap items-center gap-3 p-4">
             <div className="min-w-0 flex-1">
-              <p className="font-semibold text-[#1E2A78]">
+              <p className="font-semibold text-navy">
                 {c.name}
                 {!c.is_active && (
-                  <span className="ml-2 rounded bg-[#111936]/8 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#111936]/50">
+                  <span className="ml-2 rounded bg-ink/8 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink/50">
                     inactive
                   </span>
                 )}
               </p>
-              <p className="text-xs text-[#111936]/45">
+              <p className="text-xs text-ink/45">
                 {c.itemCount} item{c.itemCount === 1 ? "" : "s"}
                 {c.description ? ` · ${c.description}` : ""}
               </p>
@@ -61,7 +61,7 @@ export default async function CategoriesPage({
                   type="submit"
                   disabled={i === 0}
                   aria-label={`Move ${c.name} up`}
-                  className="rounded-full border border-[#1E2A78]/20 px-2.5 py-2 text-sm text-[#1E2A78] disabled:opacity-30"
+                  className="rounded-full border border-navy/20 px-2.5 py-2 text-sm text-navy disabled:opacity-30"
                 >
                   ↑
                 </button>
@@ -73,14 +73,14 @@ export default async function CategoriesPage({
                   type="submit"
                   disabled={i === categories.length - 1}
                   aria-label={`Move ${c.name} down`}
-                  className="rounded-full border border-[#1E2A78]/20 px-2.5 py-2 text-sm text-[#1E2A78] disabled:opacity-30"
+                  className="rounded-full border border-navy/20 px-2.5 py-2 text-sm text-navy disabled:opacity-30"
                 >
                   ↓
                 </button>
               </form>
               <Link
                 href={`/gm-admin/categories?edit=${c.id}`}
-                className="rounded-full border border-[#1E2A78]/20 px-3 py-2 text-sm font-semibold text-[#1E2A78] hover:bg-[#1E2A78] hover:text-white"
+                className="rounded-full border border-navy/20 px-3 py-2 text-sm font-semibold text-navy hover:bg-navy hover:text-white"
               >
                 Edit
               </Link>

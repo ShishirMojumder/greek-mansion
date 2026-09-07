@@ -35,14 +35,14 @@ export function ImageField({ name, initial }: { name: string; initial?: string |
       <div className="flex items-center gap-3">
         {url ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={url} alt="" className="h-16 w-16 shrink-0 rounded-lg border border-[#1E2A78]/15 object-cover" />
+          <img src={url} alt="" className="h-16 w-16 shrink-0 rounded-lg border border-navy/15 object-cover" />
         ) : (
-          <span className="grid h-16 w-16 shrink-0 place-items-center rounded-lg border border-dashed border-[#1E2A78]/20 text-[10px] text-[#111936]/35">
+          <span className="grid h-16 w-16 shrink-0 place-items-center rounded-lg border border-dashed border-navy/20 text-[10px] text-ink/35">
             none
           </span>
         )}
         <div className="flex flex-wrap items-center gap-2">
-          <label className="inline-flex cursor-pointer items-center rounded-full border border-[#1E2A78]/20 px-3 py-2 text-sm font-semibold text-[#1E2A78] hover:bg-white">
+          <label className="inline-flex cursor-pointer items-center rounded-full border border-navy/20 px-3 py-2 text-sm font-semibold text-navy hover:bg-white">
             {busy ? "Uploading…" : url ? "Replace" : "Upload image"}
             <input
               ref={inputRef}

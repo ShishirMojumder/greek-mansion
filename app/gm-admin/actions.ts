@@ -37,6 +37,32 @@ export async function setAvailability(formData: FormData) {
   revalidateTag("menu");
 }
 
+// ---------------------------------------------------------------- homepage featured
+/** Toggle whether an item appears in the homepage "Featured dishes" strip.
+ *  The public query also requires published + an image + not hidden, so the
+ *  admin page surfaces those conditions rather than silently dropping items. */
+export async function setFeatured(formData: FormData) {
+  const { supabase, user } = await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  const featured = String(formData.get("featured") ?? "") === "true";
+  if (!id) return;
+
+  const { data: before } = await supabase.from("menu_items").select("name, is_featured").eq("id", id).maybeSingle();
+  const { error } = await supabase.from("menu_items").update({ is_featured: featured }).eq("id", id);
+
+  if (!error && before && before.is_featured !== featured) {
+    await supabase.from("menu_audit").insert({
+      item_id: id,
+      item_name: before.name,
+      field: "is_featured",
+      old_value: String(before.is_featured),
+      new_value: String(featured),
+      actor_email: user.email,
+    });
+  }
+  revalidateTag("menu");
+}
+
 // ---------------------------------------------------------------- item editor
 const variantSchema = z.array(
   z.object({ name: z.string().max(40), price: z.string(), is_available: z.boolean().optional() }),

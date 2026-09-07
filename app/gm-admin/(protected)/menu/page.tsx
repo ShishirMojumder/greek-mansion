@@ -48,10 +48,10 @@ export default async function MenuAdminPage({
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-xl font-bold text-[#1E2A78]">Menu</h1>
+        <h1 className="text-2xl font-bold text-navy">Menu items</h1>
         <Link
           href="/gm-admin/menu/new"
-          className="rounded-full bg-[#1E2A78] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#111936]"
+          className="rounded-full bg-navy px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-ink"
         >
           + Add menu item
         </Link>
@@ -67,7 +67,7 @@ export default async function MenuAdminPage({
             key={t.key}
             href={qs({ status: t.key })}
             className={`rounded-full px-3 py-2 text-sm font-semibold transition ${
-              status === t.key ? "bg-[#1E2A78] text-white" : "border border-[#1E2A78]/20 text-[#1E2A78] hover:bg-white"
+              status === t.key ? "bg-navy text-white" : "border border-navy/20 text-navy hover:bg-white"
             }`}
           >
             {t.label}
@@ -77,12 +77,19 @@ export default async function MenuAdminPage({
 
       <FilterControls q={q} cat={cat} status={status} categories={categories} />
 
-      <p className="text-xs text-[#111936]/45">
+      <dl className="grid gap-x-6 gap-y-1 rounded-xl border border-navy/12 bg-white/70 p-4 text-xs leading-5 sm:grid-cols-2">
+        <div><dt className="inline font-semibold text-navy">{AVAILABILITY_LABEL.available}</dt><dd className="inline text-ink/55"> — orderable as normal.</dd></div>
+        <div><dt className="inline font-semibold text-navy">{AVAILABILITY_LABEL.sold_out_today}</dt><dd className="inline text-ink/55"> — greyed out on the site, back tomorrow.</dd></div>
+        <div><dt className="inline font-semibold text-navy">{AVAILABILITY_LABEL.temporarily_unavailable}</dt><dd className="inline text-ink/55"> — off the menu until you switch it back.</dd></div>
+        <div><dt className="inline font-semibold text-navy">{AVAILABILITY_LABEL.hidden}</dt><dd className="inline text-ink/55"> — not shown to customers at all.</dd></div>
+      </dl>
+
+      <p className="text-xs text-ink/45">
         {items.length} item{items.length === 1 ? "" : "s"}
         {(q || status || cat) && (
           <>
             {" "}·{" "}
-            <Link href="/gm-admin/menu" className="font-semibold text-[#1E2A78]">
+            <Link href="/gm-admin/menu" className="font-semibold text-navy">
               clear filters
             </Link>
           </>
@@ -90,30 +97,30 @@ export default async function MenuAdminPage({
       </p>
 
       {items.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-[#1E2A78]/20 bg-white p-8 text-center text-sm text-[#111936]/50">
+        <p className="rounded-xl border border-dashed border-navy/20 bg-white p-8 text-center text-sm text-ink/50">
           No items match.
         </p>
       ) : (
         <div className="space-y-6">
           {groups.map((g) => (
             <section key={g.category.id}>
-              <h2 className="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-[#1E2A78]/55">
+              <h2 className="mb-2 text-xs font-semibold uppercase tracking-[.16em] text-navy/55">
                 {g.category.name}
               </h2>
-              <ul className="divide-y divide-[#1E2A78]/10 overflow-hidden rounded-xl border border-[#1E2A78]/12 bg-white">
+              <ul className="divide-y divide-navy/10 overflow-hidden rounded-xl border border-navy/12 bg-white">
                 {g.items.map((item) => (
                   <li key={item.id} className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
                     <div className="min-w-0 flex-1">
-                      <p className="font-semibold text-[#1E2A78]">
+                      <p className="font-semibold text-navy">
                         {item.name}
-                        {item.is_featured && <span className="ml-2 text-xs font-semibold text-[#C9A227]">★</span>}
+                        {item.is_featured && <span className="ml-2 text-xs font-semibold text-gold">★</span>}
                         {!item.is_published && (
-                          <span className="ml-2 rounded bg-[#111936]/8 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-[#111936]/50">
+                          <span className="ml-2 rounded bg-ink/8 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-ink/50">
                             hidden from public
                           </span>
                         )}
                       </p>
-                      <p className="text-xs text-[#111936]/45">
+                      <p className="text-xs text-ink/45">
                         {catName.get(item.category_id)} ·{" "}
                         {formatVariants(item.menu_item_variants) || "—"}
                         {item.badge ? ` · ${item.badge}` : ""}
@@ -123,7 +130,7 @@ export default async function MenuAdminPage({
                       <AvailabilitySelect id={item.id} value={item.availability} />
                       <Link
                         href={`/gm-admin/menu/${item.id}`}
-                        className="rounded-full border border-[#1E2A78]/20 px-4 py-2.5 text-sm font-semibold text-[#1E2A78] hover:bg-[#1E2A78] hover:text-white"
+                        className="rounded-full border border-navy/20 px-4 py-2.5 text-sm font-semibold text-navy hover:bg-navy hover:text-white"
                       >
                         Edit
                       </Link>
@@ -136,9 +143,6 @@ export default async function MenuAdminPage({
         </div>
       )}
 
-      <p className="pt-2 text-[11px] text-[#111936]/40">
-        Availability legend — {Object.values(AVAILABILITY_LABEL).join(" · ")}
-      </p>
     </div>
   );
 }

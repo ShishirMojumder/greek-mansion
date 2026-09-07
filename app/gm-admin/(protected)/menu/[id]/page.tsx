@@ -13,13 +13,13 @@ export default async function EditItemPage({ params }: { params: Promise<{ id: s
   return (
     <div className="mx-auto max-w-[640px] space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-[#1E2A78]">Edit menu item</h1>
-        <Link href="/gm-admin/menu" className="text-sm font-semibold text-[#1E2A78]/70 hover:text-[#1E2A78]">
+        <h1 className="text-xl font-bold text-navy">Edit menu item</h1>
+        <Link href="/gm-admin/menu" className="text-sm font-semibold text-navy/70 hover:text-navy">
           ← Menu
         </Link>
       </div>
 
-      <p className="text-xs text-[#111936]/45">
+      <p className="text-xs text-ink/45">
         Last updated{" "}
         {new Date(item.updated_at).toLocaleString("en-CA", {
           timeZone: "America/Toronto",
@@ -32,7 +32,7 @@ export default async function EditItemPage({ params }: { params: Promise<{ id: s
 
       <ItemForm categories={categories} item={item} />
 
-      <form action={deleteItem} className="border-t border-[#1E2A78]/12 pt-5">
+      <form action={deleteItem} className="border-t border-navy/12 pt-5">
         <input type="hidden" name="id" value={item.id} />
         <ConfirmButton
           message={`Delete "${item.name}"? This cannot be undone. (To hide it instead, set Availability to Hidden.)`}

@@ -7,8 +7,8 @@ import { AVAILABILITY, AVAILABILITY_LABEL, BADGES, type Category, type Item } fr
 import { VariantEditor, type VariantRow } from "./VariantEditor";
 import { ImageField } from "./ImageField";
 
-const field = "mt-1.5 w-full rounded-lg border border-[#1E2A78]/20 px-3 py-2.5 text-base outline-none focus:border-[#C9A227] focus:ring-2 focus:ring-[#C9A227]/25";
-const label = "block text-sm font-semibold text-[#111936]/70";
+const field = "mt-1.5 w-full rounded-lg border border-navy/20 px-3 py-2.5 text-base outline-none focus:border-gold focus:ring-2 focus:ring-gold/25";
+const label = "block text-sm font-semibold text-ink/70";
 
 const dateVal = (iso: string | null | undefined) => (iso ? iso.slice(0, 10) : "");
 
@@ -61,13 +61,13 @@ export function ItemForm({
       </div>
 
       <div>
-        <label className={label} htmlFor="description">Short description <span className="font-normal text-[#111936]/40">(optional)</span></label>
+        <label className={label} htmlFor="description">Short description <span className="font-normal text-ink/40">(optional)</span></label>
         <textarea id="description" name="description" rows={2} defaultValue={item?.description ?? ""} className={field} />
       </div>
 
       <div>
         <p className={label}>Price</p>
-        <p className="mt-0.5 text-xs text-[#111936]/45">One row for a single price. Add rows for sizes / combo (e.g. Small, Large).</p>
+        <p className="mt-0.5 text-xs text-ink/45">One row for a single price. Add rows for sizes / combo (e.g. Small, Large).</p>
         <div className="mt-2">
           <VariantEditor initial={initialVariants} />
         </div>
@@ -75,7 +75,7 @@ export function ItemForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className={label} htmlFor="badge">Badge <span className="font-normal text-[#111936]/40">(optional)</span></label>
+          <label className={label} htmlFor="badge">Badge <span className="font-normal text-ink/40">(optional)</span></label>
           <select id="badge" name="badge" defaultValue={item?.badge ?? ""} className={field}>
             <option value="">None</option>
             {BADGES.map((b) => (
@@ -84,7 +84,7 @@ export function ItemForm({
           </select>
         </div>
         <div>
-          <p className={label}>Image <span className="font-normal text-[#111936]/40">(optional)</span></p>
+          <p className={label}>Image <span className="font-normal text-ink/40">(optional)</span></p>
           <div className="mt-1.5">
             <ImageField name="image_url" initial={item?.image_url} />
           </div>
@@ -92,17 +92,17 @@ export function ItemForm({
       </div>
 
       <div className="flex flex-wrap gap-6 pt-1">
-        <label className="flex items-center gap-2 text-sm text-[#111936]/75">
-          <input type="checkbox" name="is_featured" defaultChecked={item?.is_featured ?? false} /> Featured
+        <label className="flex items-center gap-2 text-sm text-ink/75">
+          <input type="checkbox" name="is_featured" defaultChecked={item?.is_featured ?? false} /> Show on the home page
         </label>
-        <label className="flex items-center gap-2 text-sm text-[#111936]/75">
+        <label className="flex items-center gap-2 text-sm text-ink/75">
           <input type="checkbox" name="is_published" defaultChecked={item?.is_published ?? true} /> Visible on the public menu
         </label>
       </div>
 
-      <details className="rounded-full border border-[#1E2A78]/12 bg-white p-3">
-        <summary className="cursor-pointer text-sm font-semibold text-[#111936]/70">
-          Availability window <span className="font-normal text-[#111936]/40">(optional — for specials)</span>
+      <details className="rounded-full border border-navy/12 bg-white p-3">
+        <summary className="cursor-pointer text-sm font-semibold text-ink/70">
+          Availability window <span className="font-normal text-ink/40">(optional — for specials)</span>
         </summary>
         <div className="mt-3 grid gap-4 sm:grid-cols-2">
           <div>
@@ -120,15 +120,15 @@ export function ItemForm({
         <p role="alert" className="rounded-full bg-[#C0392B]/10 px-3 py-2 text-sm text-[#C0392B]">{state.error}</p>
       )}
 
-      <div className="flex gap-3 border-t border-[#1E2A78]/12 pt-5">
+      <div className="flex gap-3 border-t border-navy/12 pt-5">
         <button
           type="submit"
           disabled={pending}
-          className="rounded-full bg-[#1E2A78] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#111936] disabled:opacity-60"
+          className="rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink disabled:opacity-60"
         >
           {pending ? "Saving…" : item ? "Save changes" : "Create item"}
         </button>
-        <Link href="/gm-admin/menu" className="rounded-full border border-[#1E2A78]/20 px-5 py-2.5 text-sm font-semibold text-[#1E2A78] transition hover:bg-white">
+        <Link href="/gm-admin/menu" className="rounded-full border border-navy/20 px-5 py-2.5 text-sm font-semibold text-navy transition hover:bg-white">
           Cancel
         </Link>
       </div>

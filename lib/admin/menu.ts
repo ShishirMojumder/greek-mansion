@@ -36,6 +36,28 @@ export async function getItems(opts: { q?: string; status?: string; cat?: string
     .sort((a, b) => a.category_id.localeCompare(b.category_id) || a.sort_order - b.sort_order);
 }
 
+/** Everything the homepage-featured screen needs: the current picks plus the
+ *  full catalogue to choose from. Mirrors getFeatured()'s public filters so the
+ *  admin can see exactly why a pick would not show. */
+export const FEATURED_LIMIT = 8;
+
+export function featuredBlocker(item: Item): string | null {
+  if (!item.image_url) return "Needs a photo";
+  if (!item.is_published) return "Hidden from public";
+  if (item.availability === "hidden") return "Availability set to hidden";
+  return null;
+}
+
+export async function getFeaturedBoard(q = "") {
+  const all = await getItems(q.trim() ? { q } : {});
+  const featured = (await getItems()).filter((i) => i.is_featured);
+  return {
+    featured,
+    candidates: all.filter((i) => !i.is_featured),
+    liveCount: featured.filter((i) => !featuredBlocker(i)).length,
+  };
+}
+
 export async function getItem(id: string): Promise<Item | null> {
   const { supabase } = await requireAdmin();
   const { data } = await supabase
