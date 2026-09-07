@@ -21,7 +21,9 @@ const ARC = [12, -6, -6, 12];
 
 export default function MenuHighlights({ items }: { items?: FeaturedItem[] }) {
   const cards =
-    items && items.length >= 2
+    // Whatever admin has featured (and that has a photo) wins. The hardcoded
+    // fallback is only for a genuinely empty selection, never a partial one.
+    items && items.length > 0
       ? items.slice(0, 4).map((i) => ({ name: i.name, category: i.category, image: i.image_url }))
       : fallback;
 

@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { getCategories } from "@/lib/admin/menu";
+import { getImageLibrary } from "@/lib/admin/image-library";
 import { ItemForm } from "@/components/admin/ItemForm";
 
 export default async function NewItemPage({ searchParams }: { searchParams: Promise<{ cat?: string }> }) {
   const { cat } = await searchParams;
-  const categories = await getCategories();
+  const [categories, library] = await Promise.all([getCategories(), getImageLibrary()]);
   return (
     <div className="mx-auto max-w-[640px] space-y-5">
       <div className="flex items-center justify-between">
@@ -13,7 +14,7 @@ export default async function NewItemPage({ searchParams }: { searchParams: Prom
           ← Menu
         </Link>
       </div>
-      <ItemForm categories={categories} defaultCategoryId={cat} />
+      <ItemForm categories={categories} defaultCategoryId={cat} library={library} />
     </div>
   );
 }

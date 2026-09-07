@@ -2,11 +2,22 @@
 
 import { useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { ImageLibraryPicker } from "./ImageLibraryPicker";
+import type { LibraryImage } from "@/lib/admin/image-library";
 
-export function ImageField({ name, initial }: { name: string; initial?: string | null }) {
+export function ImageField({
+  name,
+  initial,
+  library = [],
+}: {
+  name: string;
+  initial?: string | null;
+  library?: LibraryImage[];
+}) {
   const [url, setUrl] = useState(initial ?? "");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+  const [picking, setPicking] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
@@ -53,6 +64,15 @@ export function ImageField({ name, initial }: { name: string; initial?: string |
               className="hidden"
             />
           </label>
+          {library.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setPicking((v) => !v)}
+              className="rounded-full border border-navy/20 px-3 py-2 text-sm font-semibold text-navy hover:bg-white"
+            >
+              {picking ? "Hide library" : `Choose from library (${library.length})`}
+            </button>
+          )}
           {url && (
             <button type="button" onClick={() => setUrl("")} className="rounded-full px-3 py-2 text-sm font-semibold text-[#C0392B] transition hover:bg-[#C0392B]/10">
               Remove
@@ -60,6 +80,17 @@ export function ImageField({ name, initial }: { name: string; initial?: string |
           )}
         </div>
       </div>
+      {picking && (
+        <ImageLibraryPicker
+          library={library}
+          selected={url}
+          onPick={(picked) => {
+            setUrl(picked);
+            setPicking(false);
+          }}
+          onClose={() => setPicking(false)}
+        />
+      )}
       {err && <p className="text-sm text-[#C0392B]">{err}</p>}
     </div>
   );

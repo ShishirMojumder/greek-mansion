@@ -25,7 +25,9 @@ export default function FeaturedDishes({ items }: { items?: FeaturedItem[] }) {
   }, { scope: ref });
 
   const slides: CoverflowSlide[] =
-    items && items.length >= 2
+    // Whatever admin has featured (and that has a photo) wins. The hardcoded
+    // fallback is only for a genuinely empty selection, never a partial one.
+    items && items.length > 0
       ? items.map((i) => ({
           src: i.image_url,
           alt: i.name,

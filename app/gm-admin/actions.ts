@@ -63,6 +63,32 @@ export async function setFeatured(formData: FormData) {
   revalidateTag("menu");
 }
 
+/** Attach a photo to an item without opening the full editor — used by the
+ *  "needs a photo" fixups on the homepage-highlights screen. */
+export async function setItemImage(formData: FormData) {
+  const { supabase, user } = await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  const image = String(formData.get("image_url") ?? "").trim();
+  // Only our own /images/... paths or Supabase storage URLs.
+  const allowed = image.startsWith("/images/") || image.startsWith(process.env.NEXT_PUBLIC_SUPABASE_URL ?? "\u0000");
+  if (!id || !image || !allowed) return;
+
+  const { data: before } = await supabase.from("menu_items").select("name, image_url").eq("id", id).maybeSingle();
+  const { error } = await supabase.from("menu_items").update({ image_url: image }).eq("id", id);
+
+  if (!error && before && before.image_url !== image) {
+    await supabase.from("menu_audit").insert({
+      item_id: id,
+      item_name: before.name,
+      field: "image_url",
+      old_value: before.image_url,
+      new_value: image,
+      actor_email: user.email,
+    });
+  }
+  revalidateTag("menu");
+}
+
 // ---------------------------------------------------------------- item editor
 const variantSchema = z.array(
   z.object({ name: z.string().max(40), price: z.string(), is_available: z.boolean().optional() }),

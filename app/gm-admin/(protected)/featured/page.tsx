@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { setFeatured } from "@/app/gm-admin/actions";
+import { setFeatured, setItemImage } from "@/app/gm-admin/actions";
 import { getFeaturedBoard, featuredBlocker, FEATURED_LIMIT } from "@/lib/admin/menu";
 import { formatVariants } from "@/lib/price";
 import type { Item } from "@/lib/admin/menu-types";
+import { getImageLibrary, suggestImages, type LibraryImage } from "@/lib/admin/image-library";
 
 export default async function FeaturedPage({
   searchParams,
@@ -11,7 +12,7 @@ export default async function FeaturedPage({
   searchParams: Promise<{ q?: string }>;
 }) {
   const { q = "" } = await searchParams;
-  const { featured, candidates, liveCount } = await getFeaturedBoard(q);
+  const [{ featured, candidates, liveCount }, library] = await Promise.all([getFeaturedBoard(q), getImageLibrary()]);
   const full = liveCount >= FEATURED_LIMIT;
 
   return (
@@ -43,7 +44,7 @@ export default async function FeaturedPage({
         ) : (
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((item) => (
-              <FeaturedCard key={item.id} item={item} />
+              <FeaturedCard key={item.id} item={item} library={library} />
             ))}
           </ul>
         )}
@@ -94,6 +95,7 @@ export default async function FeaturedPage({
                       {item.category?.name ?? "—"} · {formatVariants(item.menu_item_variants) || "—"}
                     </p>
                     {blocker && <p className="mt-0.5 text-xs font-semibold text-[#8a271d]">{blocker}</p>}
+                    {blocker === "Needs a photo" && <PhotoPicks item={item} library={library} compact />}
                   </div>
                   <Toggle id={item.id} featured={false} disabled={Boolean(blocker)} />
                 </li>
@@ -106,7 +108,7 @@ export default async function FeaturedPage({
   );
 }
 
-function FeaturedCard({ item }: { item: Item }) {
+function FeaturedCard({ item, library }: { item: Item; library: LibraryImage[] }) {
   const blocker = featuredBlocker(item);
   return (
     <li
@@ -122,12 +124,15 @@ function FeaturedCard({ item }: { item: Item }) {
         </p>
 
         {blocker ? (
-          <p className="mt-2 rounded-lg bg-[#8a271d]/8 px-2.5 py-1.5 text-xs font-semibold text-[#8a271d]">
-            Not showing — {blocker.toLowerCase()}.{" "}
-            <Link href={`/gm-admin/menu/${item.id}`} className="underline">
-              Fix
-            </Link>
-          </p>
+          <>
+            <p className="mt-2 rounded-lg bg-[#8a271d]/8 px-2.5 py-1.5 text-xs font-semibold text-[#8a271d]">
+              Not showing — {blocker.toLowerCase()}.{" "}
+              <Link href={`/gm-admin/menu/${item.id}`} className="underline">
+                Fix
+              </Link>
+            </p>
+            {blocker === "Needs a photo" && <PhotoPicks item={item} library={library} />}
+          </>
         ) : (
           <p className="mt-2 text-xs font-semibold text-[#12603a]">Showing on the home page</p>
         )}
@@ -178,6 +183,50 @@ function Thumb({ src, className = "" }: { src: string | null; className?: string
   return (
     <div className={`relative overflow-hidden rounded-lg bg-marble ${className}`}>
       <Image src={src} alt="" fill sizes="220px" className="object-cover" />
+    </div>
+  );
+}
+
+/** One-click photo assignment from the images already in /public/images.
+ *  Ranked by how well the filename matches the dish name. */
+function PhotoPicks({ item, library, compact = false }: { item: Item; library: LibraryImage[]; compact?: boolean }) {
+  const picks = suggestImages(item.name, library, compact ? 3 : 4);
+  if (picks.length === 0) {
+    return (
+      <p className={`text-xs text-ink/45 ${compact ? "mt-1" : "mt-2"}`}>
+        No matching photo in the library —{" "}
+        <Link href={`/gm-admin/menu/${item.id}`} className="font-semibold text-navy underline">
+          pick or upload one
+        </Link>
+        .
+      </p>
+    );
+  }
+  return (
+    <div className={compact ? "mt-1.5" : "mt-2"}>
+      <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-ink/40">Use one of these</p>
+      <div className="mt-1 flex flex-wrap gap-1.5">
+        {picks.map((image) => (
+          <form action={setItemImage} key={image.url}>
+            <input type="hidden" name="id" value={item.id} />
+            <input type="hidden" name="image_url" value={image.url} />
+            <button
+              type="submit"
+              title={`Use ${image.label}`}
+              className="block overflow-hidden rounded-md border border-navy/15 transition hover:border-gold hover:ring-2 hover:ring-gold/30"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={image.url} alt={image.label} className="h-11 w-14 object-cover" />
+            </button>
+          </form>
+        ))}
+        <Link
+          href={`/gm-admin/menu/${item.id}`}
+          className="grid h-11 w-14 place-items-center rounded-md border border-dashed border-navy/25 text-[10px] font-semibold text-navy/60 hover:border-gold"
+        >
+          More
+        </Link>
+      </div>
     </div>
   );
 }

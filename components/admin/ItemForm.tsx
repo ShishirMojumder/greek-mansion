@@ -6,6 +6,7 @@ import { saveItem, type ItemFormState } from "@/app/gm-admin/actions";
 import { AVAILABILITY, AVAILABILITY_LABEL, BADGES, type Category, type Item } from "@/lib/admin/menu-types";
 import { VariantEditor, type VariantRow } from "./VariantEditor";
 import { ImageField } from "./ImageField";
+import type { LibraryImage } from "@/lib/admin/image-library";
 
 const field = "mt-1.5 w-full rounded-lg border border-navy/20 px-3 py-2.5 text-base outline-none focus:border-gold focus:ring-2 focus:ring-gold/25";
 const label = "block text-sm font-semibold text-ink/70";
@@ -16,10 +17,12 @@ export function ItemForm({
   categories,
   item,
   defaultCategoryId,
+  library = [],
 }: {
   categories: Category[];
   item?: Item;
   defaultCategoryId?: string;
+  library?: LibraryImage[];
 }) {
   const [state, action, pending] = useActionState<ItemFormState, FormData>(saveItem, {});
 
@@ -86,7 +89,7 @@ export function ItemForm({
         <div>
           <p className={label}>Image <span className="font-normal text-ink/40">(optional)</span></p>
           <div className="mt-1.5">
-            <ImageField name="image_url" initial={item?.image_url} />
+            <ImageField name="image_url" initial={item?.image_url} library={library} />
           </div>
         </div>
       </div>

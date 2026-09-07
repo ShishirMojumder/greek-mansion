@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCategories, getItem } from "@/lib/admin/menu";
+import { getImageLibrary } from "@/lib/admin/image-library";
 import { deleteItem } from "@/app/gm-admin/actions";
 import { ItemForm } from "@/components/admin/ItemForm";
 import { ConfirmButton } from "@/components/admin/ConfirmButton";
 
 export default async function EditItemPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const [categories, item] = await Promise.all([getCategories(), getItem(id)]);
+  const [categories, item, library] = await Promise.all([getCategories(), getItem(id), getImageLibrary()]);
   if (!item) notFound();
 
   return (
@@ -30,7 +31,7 @@ export default async function EditItemPage({ params }: { params: Promise<{ id: s
         })}
       </p>
 
-      <ItemForm categories={categories} item={item} />
+      <ItemForm categories={categories} item={item} library={library} />
 
       <form action={deleteItem} className="border-t border-navy/12 pt-5">
         <input type="hidden" name="id" value={item.id} />
