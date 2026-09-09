@@ -8,6 +8,7 @@ import ArrowFillButton from "@/components/ui/arrow-fill-button";
 const ease = [0.22, 1, 0.36, 1] as const;
 const items = [
   { label: "Menu", href: "/menu" },
+  { label: "Play", href: "/game" },
   { label: "Catering", href: "/catering" },
   { label: "Blog", href: "/blog" },
   { label: "Our Story", href: "/about" },
@@ -48,7 +49,7 @@ export default function FloatingMenu() {
 
   return <motion.div ref={ref} className="fixed right-3 top-[15px] z-[60] flex items-start gap-2 md:right-10 md:gap-3" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55, ease }}>
     <motion.div className="hidden rounded-full shadow-lg shadow-black/25 sm:block" animate={{opacity:open?0:1,x:open?14:0,pointerEvents:open?"none":"auto"}} transition={{duration:.25}}><ArrowFillButton btnText="Order on Uber Eats" href="https://www.ubereats.com/ca/store/greek-mansion/2jMowxE1Ts6w_sOBYT_BQA?utm=greekfooddelivery.ca" target="_blank" rel="noreferrer" aria-label="Order Greek Mansion on Uber Eats" className="font-label" bgColor="#06C167" textColor="#000000" fillBgColor="#000000" fillTextColor="#06C167" hoverFillBgColor="#000000" hoverFillTextColor="#06C167"/></motion.div>
-    <motion.div className="relative flex cursor-pointer flex-col overflow-hidden border border-gold shadow-lg shadow-navy/10" animate={{ width: open ? 290 : 118, height: open ? 344 : 50, borderRadius: open ? 28 : 999 }} whileHover={open ? undefined : { scale: 1.04 }} transition={{ duration: .72, ease, height: { duration: open ? .72 : .22 } }} onClick={() => {if (!open) setOpen(true)}}>
+    <motion.div className="relative flex cursor-pointer flex-col overflow-hidden border border-gold shadow-lg shadow-navy/10" animate={{ width: open ? 290 : 118, height: open ? 394 : 50, borderRadius: open ? 28 : 999 }} whileHover={open ? undefined : { scale: 1.04 }} transition={{ duration: .72, ease, height: { duration: open ? .72 : .22 } }} onClick={() => {if (!open) setOpen(true)}}>
       <motion.div className="absolute inset-0 bg-gold" style={{ borderRadius: "inherit" }}/>
       <motion.div className="absolute left-1/2 h-[200%] w-[200%] -translate-x-1/2 rounded-full bg-navy" animate={{ bottom: open ? "-18%" : "-205%" }} transition={{ duration: .75, delay: open ? .06 : 0, ease }}/>
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-6 overflow-hidden" style={{ pointerEvents: open ? "auto" : "none" }}>

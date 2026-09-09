@@ -15,7 +15,7 @@ const columns=[
 const container:Variants={hidden:{opacity:0},visible:{opacity:1,transition:{staggerChildren:.14,delayChildren:.08}}};
 const item:Variants={hidden:{opacity:0,y:28},visible:{opacity:1,y:0,transition:{duration:.7,ease:[.22,1,.36,1]}}};
 
-export default function GreekMansionFooter(){return <footer className="marble px-4 py-8 md:px-8 md:py-12"><motion.div className="mx-auto max-w-[1400px]" initial="hidden" whileInView="visible" viewport={{once:true,margin:"-80px"}} variants={container}>
+export default function GreekMansionFooter(){return <footer className="marble w-full px-4 py-8 md:px-8 md:py-12"><motion.div className="w-full" initial="hidden" whileInView="visible" viewport={{once:true,margin:"-80px"}} variants={container}>
  <div className="flex flex-col gap-4 md:flex-row">
   <motion.div variants={item} className="footer-brand-card noise relative flex min-h-[430px] w-full flex-col justify-between overflow-hidden rounded-2xl bg-navy p-7 text-white md:min-h-[610px] md:w-[35%] md:p-10">
    <Image src="/images/greek-mansion-logo-white.png" alt="Greek Mansion" width={1254} height={1254} priority className="relative z-10 -my-9 -ml-8 h-auto w-[340px] self-start md:-my-14 md:-ml-12 md:w-[430px]"/>
