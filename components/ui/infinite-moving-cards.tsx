@@ -1,34 +1,22 @@
 "use client";
 
-import {useEffect, useRef, useState} from "react";
+import {useRef,useState} from "react";
 import {Star} from "lucide-react";
 import type {Review} from "@/data/reviews";
 
 export type ReviewItem=Review;
-/** `direction` is the way the CARDS travel: "left" means each card enters from
- *  the right edge and drifts toward the left. */
-type Props={items:ReviewItem[];direction?:"left"|"right";speed?:"normal"|"slow";pauseOnHover?:boolean};
+type Props={items:ReviewItem[];direction?:"left"|"right";speed?:"normal"|"slow"};
 
-/** A fling can push the rail this much faster than its resting drift (px/s). */
-const MAX_FLING=3000;
-/** Below this the fling is over and the rail eases back to its own pace. */
-const FLING_FLOOR=8;
-/** Time constant of the fling's decay, in ms — higher coasts longer. */
-const FLING_DECAY=320;
-const clamp=(n:number,limit:number)=>Math.max(-limit,Math.min(limit,n));
-
-/** Long reviews get clamped; anything past this is worth a "Read more". */
+/** Long reviews are trimmed so every card stays the same readable height. */
 const CLAMP_AT=340;
 
-function ReviewCard({item,hidden=false,onExpandChange}:{item:ReviewItem;hidden?:boolean;onExpandChange:(open:boolean)=>void}){
- const [open,setOpen]=useState(false);
+function ReviewCard({item,hidden=false}:{item:ReviewItem;hidden?:boolean}){
  const longform=item.quote.length>CLAMP_AT;
  // Every aspect scored top marks — the only case where a five-star row is
  // something the review itself actually says.
  const allFive=item.ratings?item.ratings.food===5&&item.ratings.service===5&&item.ratings.atmosphere===5:false;
- const toggle=()=>{const next=!open;setOpen(next);onExpandChange(next)};
 
- return <li aria-hidden={hidden||undefined} className="relative flex w-[300px] shrink-0 flex-col rounded-2xl border border-white/20 bg-white p-5 shadow-xl shadow-black/10 sm:w-[380px] sm:p-6">
+ return <li aria-hidden={hidden||undefined} className="relative flex w-[86vw] max-w-[370px] shrink-0 flex-col rounded-2xl border border-white/20 bg-white p-5 shadow-xl shadow-black/10 sm:w-[380px] sm:p-6">
   <div className="flex items-start justify-between gap-3">
    <div className="flex min-w-0 items-center gap-3">
     <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-navy font-label text-sm text-white ring-2 ring-gold/40">{item.initials}</span>
@@ -46,12 +34,9 @@ function ReviewCard({item,hidden=false,onExpandChange}:{item:ReviewItem;hidden?:
    {item.context.map(chip=><span key={chip} className="rounded-full bg-marble px-2.5 py-0.5 font-label text-[9px] uppercase tracking-[.12em] text-navy/70">{chip}</span>)}
   </div>
 
-  <blockquote className={`mt-4 whitespace-pre-line text-sm leading-7 text-ink/65 ${open||!longform?"":"line-clamp-[7]"}`}>
+  <blockquote className={`mt-4 whitespace-pre-line text-sm leading-7 text-ink/65 ${longform?"line-clamp-[7]":""}`}>
    {item.quote}
   </blockquote>
-  {longform&&<button type="button" onClick={toggle} className="focus-ring mt-2 self-start font-label text-[10px] uppercase tracking-[.14em] text-navy underline decoration-gold decoration-2 underline-offset-4 hover:text-gold">
-   {open?"Show less":"Read more"}
-  </button>}
 
   <div className="mt-auto pt-5">
    {item.ratings&&<p className="flex flex-wrap gap-1.5 text-[10px] text-ink/50">
@@ -66,92 +51,67 @@ function ReviewCard({item,hidden=false,onExpandChange}:{item:ReviewItem;hidden?:
  </li>
 }
 
-export function InfiniteMovingCards({items,direction="left",speed="slow",pauseOnHover=true}:Props){
- const scrollerRef=useRef<HTMLDivElement>(null);
- const interacting=useRef(false);
- const hovering=useRef(false);
- // While anyone is reading an expanded review, the rail holds still.
- const expanded=useRef(0);
- const dragStart=useRef({x:0,scrollLeft:0});
- // Extra px/s carried over from a swipe; decays back to zero on its own.
- const fling=useRef(0);
- // Running estimate of the pointer's speed while a drag is in progress.
- const swipe=useRef({x:0,t:0,v:0});
+/**
+ * Reviews on a constant-speed loop, the same mechanism as the gold ribbon: one
+ * CSS animation over two identical copies of the list, so the seam is invisible
+ * and the rail never stops, stalls or waits for a gesture.
+ */
+export function InfiniteMovingCards({items,direction="right",speed="slow"}:Props){
+ const seconds=speed==="slow"?96:64;
+ // Held down = reading. The CSS animation simply pauses where it stands and
+ // picks up again on release; nothing is recalculated.
+ const [held,setHeld]=useState(false);
+ const dragLayer=useRef<HTMLDivElement>(null);
+ const trackRef=useRef<HTMLDivElement>(null);
+ const offset=useRef(0);
+ const drag=useRef<{id:number;x:number;from:number}|null>(null);
 
- useEffect(()=>{
-  const scroller=scrollerRef.current;
-  if(!scroller)return;
-  let frame=0;
-  let previous=performance.now();
-  const pixelsPerSecond=speed==="slow"?28:42;
-  // scrollLeft grows to the right, so a positive delta slides the cards left.
-  const drift=direction==="left"?1:-1;
+ const applyOffset=(next:number)=>{
+  // The list repeats every half of the track, so shifting by exactly that much
+  // looks identical — wrapping there keeps a long drag from exposing an edge.
+  const half=(trackRef.current?.scrollWidth??0)/2;
+  offset.current=half>0?next%half:next;
+  if(dragLayer.current)dragLayer.current.style.transform=`translateX(${offset.current}px)`;
+ };
 
-  const loop=(now:number)=>{
-   const elapsed=Math.min(now-previous,40);
-   previous=now;
+ const release=(event:React.PointerEvent<HTMLDivElement>)=>{
+  if(drag.current?.id===event.pointerId){
+   event.currentTarget.releasePointerCapture(event.pointerId);
+   drag.current=null;
+  }
+  setHeld(false);
+ };
 
-   // A fling outranks hover-pause: releasing a swipe under the cursor should
-   // still coast, otherwise a desktop flick does nothing at all.
-   const coasting=Math.abs(fling.current)>0;
-   const held=interacting.current||expanded.current>0||(pauseOnHover&&hovering.current&&!coasting);
-
-   if(!held){
-    scroller.scrollLeft+=(drift*pixelsPerSecond+fling.current)*(elapsed/1000);
-    fling.current*=Math.exp(-elapsed/FLING_DECAY);
-    if(Math.abs(fling.current)<FLING_FLOOR)fling.current=0;
-   }
-
-   const halfway=scroller.scrollWidth/2;
-   if(halfway>0){
-    if(scroller.scrollLeft>=halfway)scroller.scrollLeft-=halfway;
-    if(scroller.scrollLeft<0)scroller.scrollLeft+=halfway;
-   }
-   frame=requestAnimationFrame(loop);
-  };
-  if(direction==="right")scroller.scrollLeft=scroller.scrollWidth/2;
-  frame=requestAnimationFrame(loop);
-  return()=>cancelAnimationFrame(frame);
- },[direction,pauseOnHover,speed,items]);
-
- const onExpandChange=(open:boolean)=>{expanded.current=Math.max(0,expanded.current+(open?1:-1))};
+ const track=(hidden:boolean)=><ul className="flex shrink-0 items-stretch gap-4 py-5">
+  {items.map((item,index)=><ReviewCard item={item} hidden={hidden} key={`${hidden?"b":"a"}-${item.initials}-${index}`}/>)}
+ </ul>;
 
  return <div
-  ref={scrollerRef}
-  className="review-scroller review-drag-rail relative cursor-grab overflow-x-auto active:cursor-grabbing"
-  onMouseEnter={()=>{hovering.current=true}}
-  onMouseLeave={()=>{hovering.current=false}}
+  className="cursor-grab select-none overflow-hidden [touch-action:pan-y] active:cursor-grabbing"
   onPointerDown={event=>{
-   interacting.current=true;
-   fling.current=0;
-   dragStart.current={x:event.clientX,scrollLeft:event.currentTarget.scrollLeft};
-   swipe.current={x:event.clientX,t:performance.now(),v:0};
+   setHeld(true);
+   drag.current={id:event.pointerId,x:event.clientX,from:offset.current};
    event.currentTarget.setPointerCapture(event.pointerId);
   }}
   onPointerMove={event=>{
-   if(!interacting.current)return;
-   event.currentTarget.scrollLeft=dragStart.current.scrollLeft-(event.clientX-dragStart.current.x);
-   // Smoothed pointer speed, in scroll px/s: dragging left (clientX falling)
-   // scrolls right, which is the same sense as the resting drift.
-   const now=performance.now(),dt=now-swipe.current.t;
-   if(dt>0){
-    const instant=-(event.clientX-swipe.current.x)/dt*1000;
-    swipe.current={x:event.clientX,t:now,v:swipe.current.v*0.7+instant*0.3};
-   }
+   const active=drag.current;
+   if(!active||active.id!==event.pointerId)return;
+   applyOffset(active.from+(event.clientX-active.x));
   }}
-  onPointerUp={event=>{
-   interacting.current=false;
-   // Anything slower than this was a nudge to reposition, not a fling.
-   fling.current=Math.abs(swipe.current.v)>60?clamp(swipe.current.v,MAX_FLING):0;
-   swipe.current.v=0;
-   event.currentTarget.releasePointerCapture(event.pointerId);
-  }}
-  onPointerCancel={()=>{interacting.current=false;swipe.current.v=0}}
-  aria-label="Customer reviews from Google. Drag to browse, or swipe faster to speed the rail up."
+  onPointerUp={release}
+  onPointerCancel={release}
  >
-  <ul className="flex w-max select-none items-stretch gap-4 py-5">
-   {items.map((item,index)=><ReviewCard item={item} onExpandChange={onExpandChange} key={`first-${item.initials}-${index}`}/>)}
-   {items.map((item,index)=><ReviewCard item={item} hidden onExpandChange={onExpandChange} key={`second-${item.initials}-${index}`}/>)}
-  </ul>
+  <div ref={dragLayer} className="will-change-transform">
+   {/* translateX(-50%) is exactly one copy, so the loop point is seamless.
+       Reversed, the cards travel left to right. */}
+   <div
+    ref={trackRef}
+    className={`hero-marquee flex w-max ${direction==="right"?"[animation-direction:reverse]":""}`}
+    style={{animationDuration:`${seconds}s`,animationPlayState:held?"paused":"running"}}
+   >
+    {track(false)}
+    {track(true)}
+   </div>
+  </div>
  </div>
 }
