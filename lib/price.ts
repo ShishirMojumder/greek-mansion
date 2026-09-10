@@ -13,7 +13,10 @@ export type PricedVariant = { name: string; price_cents: number };
 /** Public-style price string: single blank variant → "$9.00"; multiple → "Small $8.95 · Large $11.95". */
 export function formatVariants(variants: PricedVariant[]): string {
   if (!variants.length) return "—";
-  if (variants.length === 1) return centsToUsd(variants[0].price_cents);
+  if (variants.length === 1) {
+    const [v] = variants;
+    return v.name ? `${v.name} ${centsToUsd(v.price_cents)}` : centsToUsd(v.price_cents);
+  }
   return variants
     .map((v) => (v.name ? `${v.name} ${centsToUsd(v.price_cents)}` : centsToUsd(v.price_cents)))
     .join(" · ");

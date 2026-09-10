@@ -8,9 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "seed:menu": "node scripts/seed-menu.mjs",
+    "sync:menu": "node scripts/sync-menu.mjs",
     "admin:create": "node scripts/create-admin.mjs",
     "admin:bootstrap": "node scripts/bootstrap-admin.mjs",
-    "images:match": "node scripts/match-images.mjs"
+    "images:match": "node scripts/match-images.mjs",
+    "telegram:setup": "node scripts/telegram-setup.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

@@ -4,6 +4,12 @@
    display face can be wired here later without touching component code. */
 :root{--navy:#1E2A78;--marble:#F8F5ED;--ink:#111936;--gold:#C9A227;--font-zuume:var(--font-poppins),Poppins,Impact,"Arial Narrow",sans-serif;--font-norwester:var(--font-poppins),Poppins,"Arial Narrow",sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--marble);color:var(--ink);font-family:var(--font-poppins),Poppins,Arial,sans-serif;font-weight:400}::selection{background:#1E2A78;color:white}
+/* Metallic gold: highlight and shadow stops around the brand #C9A227, so gold
+   surfaces catch light instead of reading as flat mustard. Dark text stays
+   legible — every stop sits in the mid-to-light range. */
+.gold-plate{background-image:linear-gradient(100deg,#A8801A 0%,#C9A227 12%,#EBCE72 26%,#C9A227 40%,#F4E2A0 52%,#C9A227 64%,#B08D1E 78%,#DFBF52 92%,#C9A227 100%);background-color:#C9A227}
+/* Same treatment for text and icons. */
+.gold-plate-text{background-image:linear-gradient(100deg,#B08D1E,#EBCE72 30%,#C9A227 50%,#F4E2A0 68%,#C9A227);-webkit-background-clip:text;background-clip:text;color:transparent}
 .marble{background-color:#F8F5ED;background-image:radial-gradient(ellipse at 15% 20%,rgba(30,42,120,.045),transparent 26%),radial-gradient(ellipse at 80% 70%,rgba(201,162,39,.06),transparent 30%)}
 .eyebrow{font-family:var(--font-norwester),"Arial Narrow",sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:400;color:#1E2A78}.display{font-family:var(--font-zuume),Impact,"Arial Narrow",sans-serif;font-weight:700;line-height:.84;letter-spacing:.01em}.font-serif{font-weight:700;letter-spacing:.01em}
 /* Greek-Freak accent: the storefront signage face. Latin caps only — it has no Greek letters, middot (·), em dash (—) or ©, so keep it to short A-Z/0-9 words. Sized up 1.06em because its caps run shorter and lighter than Poppins Bold. */

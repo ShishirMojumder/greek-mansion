@@ -20,7 +20,7 @@ export function MenuCategory({ category, index }: { category: PublicCategory; in
     <section id={id} className={`scroll-mt-28 px-5 py-20 md:px-10 md:py-28 ${backgrounds[index % backgrounds.length]}`}>
       <div className="mx-auto max-w-[1120px]">
         <div className="text-center">
-          <p className="font-label text-[10px] uppercase tracking-[.2em] text-gold/80">Category · 0{index + 1}</p>
+          <p className="font-label text-[10px] uppercase tracking-[.2em] text-gold/80">Category · {String(index + 1).padStart(2, "0")}</p>
           <h2 className="display mt-4 text-5xl uppercase text-navy md:text-7xl">{category.name}</h2>
           {category.note && <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-ink/55">{category.note}</p>}
         </div>
@@ -35,7 +35,10 @@ export function MenuCategory({ category, index }: { category: PublicCategory; in
             return (
               <article
                 key={`${item.name}-${itemIndex}`}
-                className={`flex items-baseline justify-between gap-4 border-b py-5 ${
+                id={item.slug}
+                // Deep-link target: homepage dish cards land here, and :target
+                // rings the row for a moment so the eye finds it.
+                className={`scroll-mt-40 flex items-baseline justify-between gap-4 border-b py-5 transition-shadow target:rounded-lg target:ring-2 target:ring-gold target:ring-offset-4 target:ring-offset-marble ${
                   item.is_featured ? "-mx-3 rounded-lg border-transparent bg-gold/[.08] px-3" : "border-navy/10"
                 } ${off ? "opacity-55" : ""}`}
               >
@@ -58,7 +61,7 @@ export function MenuCategory({ category, index }: { category: PublicCategory; in
                   ) : (
                     <span className="flex flex-col items-end gap-2.5 md:flex-row md:flex-wrap md:justify-end md:gap-2">
                       {prices.map((price) => (
-                        <span key={price} className="whitespace-nowrap rounded-md bg-gold px-3 py-1.5 leading-5 text-black">
+                        <span key={price} className="gold-plate whitespace-nowrap rounded-md px-3 py-1.5 leading-5 text-black">
                           {price}
                         </span>
                       ))}

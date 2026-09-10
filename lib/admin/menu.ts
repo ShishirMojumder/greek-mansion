@@ -23,7 +23,7 @@ export async function getItems(opts: { q?: string; status?: string; cat?: string
   const { supabase } = await requireAdmin();
   let q = supabase
     .from("menu_items")
-    .select("*, category:menu_categories(name), menu_item_variants(*)")
+    .select("*, category:menu_categories(name, sort_order), menu_item_variants(*)")
     .order("sort_order");
   if (opts.cat) q = q.eq("category_id", opts.cat);
   if (opts.status && ["available", "sold_out_today", "temporarily_unavailable", "hidden"].includes(opts.status)) {
@@ -33,13 +33,20 @@ export async function getItems(opts: { q?: string; status?: string; cat?: string
   const { data } = await q;
   return ((data ?? []) as unknown as Item[])
     .map((i) => ({ ...i, menu_item_variants: [...i.menu_item_variants].sort((a, b) => a.sort_order - b.sort_order) }))
-    .sort((a, b) => a.category_id.localeCompare(b.category_id) || a.sort_order - b.sort_order);
+    .sort(menuOrder);
 }
 
 /** Everything the homepage-featured screen needs: the current picks plus the
  *  full catalogue to choose from. Mirrors getFeatured()'s public filters so the
  *  admin can see exactly why a pick would not show. */
 export const FEATURED_LIMIT = 8;
+/** The "Greek favourites" band on the homepage is a row of four cards; the
+ *  carousel above it shows every pick. Both read the list in menu order. */
+export const HIGHLIGHT_SLOTS = 4;
+
+/** Menu order: the category's position first, then the item's within it. */
+export const menuOrder = (a: Item, b: Item) =>
+  (a.category?.sort_order ?? 0) - (b.category?.sort_order ?? 0) || a.sort_order - b.sort_order;
 
 export function featuredBlocker(item: Item): string | null {
   if (!item.image_url) return "Needs a photo";
@@ -50,11 +57,15 @@ export function featuredBlocker(item: Item): string | null {
 
 export async function getFeaturedBoard(q = "") {
   const all = await getItems(q.trim() ? { q } : {});
-  const featured = (await getItems()).filter((i) => i.is_featured);
+  const featured = (await getItems()).filter((i) => i.is_featured).sort(menuOrder);
+  // Only picks with nothing blocking them reach the homepage, and the first
+  // four of those also fill the "Greek favourites" row.
+  const live = featured.filter((i) => !featuredBlocker(i));
   return {
     featured,
     candidates: all.filter((i) => !i.is_featured),
-    liveCount: featured.filter((i) => !featuredBlocker(i)).length,
+    liveCount: live.length,
+    highlightIds: new Set(live.slice(0, HIGHLIGHT_SLOTS).map((i) => i.id)),
   };
 }
 

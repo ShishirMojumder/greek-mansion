@@ -15,10 +15,10 @@ const details: [typeof Users, string, string][] = [
 ];
 
 const packages = [
-  { people: "10 People", price: "$129.95" },
-  { people: "15 People", price: "$194.95" },
-  { people: "20 People", price: "$259.95" },
-  { people: "25 People", price: "$324.95" },
+  { people: "10 People", price: "$135.00" },
+  { people: "15 People", price: "$202.50" },
+  { people: "20 People", price: "$270.00" },
+  { people: "25 People", price: "$337.50" },
 ];
 
 const included = ["Rice", "Potatoes", "Greek Salad", "Tzatziki", "Pita Bread"];
@@ -40,7 +40,7 @@ export default function Catering() {
           {packages.map((item) => <article key={item.people} className="group rounded-[26px] bg-white p-6 text-center text-ink shadow-xl shadow-black/10 transition duration-500 hover:-translate-y-2">
             <p className="font-label text-[10px] uppercase tracking-[.18em] text-navy/50">Catering combo</p>
             <h3 className="mt-4 font-serif text-3xl uppercase leading-none text-navy">{item.people}</h3>
-            <p className="mt-5 inline-flex rounded-full bg-gold px-5 py-2 font-label text-sm tracking-[.08em] text-ink transition-transform duration-300 group-hover:scale-105">{item.price}</p>
+            <p className="gold-plate mt-5 inline-flex rounded-full px-5 py-2 font-label text-sm tracking-[.08em] text-ink transition-transform duration-300 group-hover:scale-105">{item.price}</p>
           </article>)}
         </div>
 

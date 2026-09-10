@@ -61,8 +61,23 @@ export default function ReviewFab() {
           </text>
         </motion.svg>
 
-        {/* Center star */}
-        <span className="relative z-10 text-2xl select-none">⭐</span>
+        {/* Center star — drawn rather than an emoji, so it is brand gold with a
+            metallic gradient instead of the platform's flat yellow. */}
+        <svg viewBox="0 0 24 24" aria-hidden="true" className="relative z-10 h-7 w-7 drop-shadow-[0_1px_2px_rgba(0,0,0,.35)]">
+          <defs>
+            <linearGradient id="fab-gold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#B08D1E" />
+              <stop offset="28%" stopColor="#EBCE72" />
+              <stop offset="52%" stopColor="#C9A227" />
+              <stop offset="74%" stopColor="#F4E2A0" />
+              <stop offset="100%" stopColor="#C9A227" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M12 2.6l2.78 5.63 6.22.9-4.5 4.38 1.06 6.19L12 16.78 6.44 19.7l1.06-6.19L3 9.13l6.22-.9L12 2.6z"
+            fill="url(#fab-gold)"
+          />
+        </svg>
       </motion.div>
     </motion.a>
   );

@@ -54,7 +54,7 @@ export type Item = {
   ends_at: string | null;
   sort_order: number;
   updated_at: string;
-  category?: { name: string } | null;
+  category?: { name: string; sort_order?: number } | null;
   menu_item_variants: Variant[];
 };
 

@@ -10,7 +10,7 @@ const columns=[
  {title:"Explore",links:[{label:"Home",href:"/"},{label:"Full Menu",href:"/menu"},{label:"Blog",href:"/blog"},{label:"Our Story",href:"/about"},{label:"Contact",href:"/contact"}]},
  {title:"Gather",links:[{label:"Catering",href:"/catering"},{label:"Family Meals",href:"/menu#specials"},{label:"Dinner Plates",href:"/menu#dinner-plates"},{label:"Mansion Favourites",href:"/menu#mansion-favourites"}]},
  {title:"Visit",links:[{label:"5651 Steeles Ave E #10",href:"https://maps.app.goo.gl/bRD3NCp2ohiZZSp19"},{label:"Scarborough, Ontario",href:"https://maps.app.goo.gl/bRD3NCp2ohiZZSp19"},{label:"416-292-3333",href:"tel:+14162923333"},{label:"Get Directions",href:"https://maps.app.goo.gl/bRD3NCp2ohiZZSp19"}]},
- {title:"Favourites",links:[{label:"Souvlaki",href:"/menu#dinner-plates"},{label:"Gyro Plates",href:"/menu#dinner-plates"},{label:"Mansion Wraps",href:"/menu#mansion-wraps"},{label:"Desserts",href:"/menu#desserts"}]}
+ {title:"Favourites",links:[{label:"Souvlaki",href:"/menu#dinner-plates"},{label:"Gyro Plates",href:"/menu#dinner-plates"},{label:"Mansion Pita Wraps",href:"/menu#mansion-pita-wraps"},{label:"Desserts",href:"/menu#desserts"}]}
 ];
 const container:Variants={hidden:{opacity:0},visible:{opacity:1,transition:{staggerChildren:.14,delayChildren:.08}}};
 const item:Variants={hidden:{opacity:0,y:28},visible:{opacity:1,y:0,transition:{duration:.7,ease:[.22,1,.36,1]}}};

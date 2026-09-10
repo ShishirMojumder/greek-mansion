@@ -9,6 +9,7 @@ const NAV = [
   { href: "/gm-admin/featured", label: "Homepage" },
   { href: "/gm-admin/categories", label: "Categories" },
   { href: "/gm-admin/specials", label: "Specials" },
+  { href: "/gm-admin/enquiries", label: "Enquiries" },
 ];
 
 export function AdminNav() {

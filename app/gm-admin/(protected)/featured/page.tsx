@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { setFeatured, setItemImage } from "@/app/gm-admin/actions";
-import { getFeaturedBoard, featuredBlocker, FEATURED_LIMIT } from "@/lib/admin/menu";
+import { getFeaturedBoard, featuredBlocker, FEATURED_LIMIT, HIGHLIGHT_SLOTS } from "@/lib/admin/menu";
 import { formatVariants } from "@/lib/price";
 import type { Item } from "@/lib/admin/menu-types";
 import { getImageLibrary, suggestImages, type LibraryImage } from "@/lib/admin/image-library";
@@ -12,7 +12,7 @@ export default async function FeaturedPage({
   searchParams: Promise<{ q?: string }>;
 }) {
   const { q = "" } = await searchParams;
-  const [{ featured, candidates, liveCount }, library] = await Promise.all([getFeaturedBoard(q), getImageLibrary()]);
+  const [{ featured, candidates, liveCount, highlightIds }, library] = await Promise.all([getFeaturedBoard(q), getImageLibrary()]);
   const full = liveCount >= FEATURED_LIMIT;
 
   return (
@@ -20,8 +20,14 @@ export default async function FeaturedPage({
       <div>
         <h1 className="text-2xl font-bold text-navy">Homepage highlights</h1>
         <p className="mt-1 max-w-2xl text-sm leading-6 text-ink/55">
-          These dishes appear in the <strong>Featured dishes</strong> strip on the home page. Swap them whenever your
-          best sellers change — the site updates right away. Up to {FEATURED_LIMIT} show at once.
+          These dishes appear in the <strong>Featured dishes</strong> carousel on the home page, and the first{" "}
+          {HIGHLIGHT_SLOTS} of them also fill the <strong>Greek favourites</strong> row further down. Swap them whenever
+          your best sellers change — the site updates right away. Up to {FEATURED_LIMIT} show at once, and a dish needs a
+          photo before it can appear.
+        </p>
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/55">
+          Order follows the menu: a dish's category position, then its position inside that category. Clicking any dish
+          on the home page opens the menu scrolled straight to it.
         </p>
       </div>
 
@@ -33,9 +39,18 @@ export default async function FeaturedPage({
           </h2>
           <p className="text-xs text-ink/45">
             {liveCount} showing
+            {liveCount < HIGHLIGHT_SLOTS && ` · Greek favourites needs ${HIGHLIGHT_SLOTS}`}
             {featured.length !== liveCount && ` · ${featured.length - liveCount} can’t show yet`}
           </p>
         </div>
+
+        {liveCount > 0 && liveCount < HIGHLIGHT_SLOTS && (
+          <p className="mb-3 rounded-xl border border-gold/40 bg-gold/10 px-4 py-3 text-sm text-ink/70">
+            Only {liveCount} dish{liveCount === 1 ? "" : "es"} can show right now. The Greek favourites row holds{" "}
+            {HIGHLIGHT_SLOTS}, so the empty slots fall back to house classics until you add{" "}
+            {HIGHLIGHT_SLOTS - liveCount} more.
+          </p>
+        )}
 
         {featured.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-navy/20 bg-white p-8 text-center text-sm text-ink/50">
@@ -44,7 +59,7 @@ export default async function FeaturedPage({
         ) : (
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((item) => (
-              <FeaturedCard key={item.id} item={item} library={library} />
+              <FeaturedCard key={item.id} item={item} library={library} inHighlights={highlightIds.has(item.id)} />
             ))}
           </ul>
         )}
@@ -108,7 +123,7 @@ export default async function FeaturedPage({
   );
 }
 
-function FeaturedCard({ item, library }: { item: Item; library: LibraryImage[] }) {
+function FeaturedCard({ item, library, inHighlights }: { item: Item; library: LibraryImage[]; inHighlights: boolean }) {
   const blocker = featuredBlocker(item);
   return (
     <li
@@ -134,7 +149,9 @@ function FeaturedCard({ item, library }: { item: Item; library: LibraryImage[] }
             {blocker === "Needs a photo" && <PhotoPicks item={item} library={library} />}
           </>
         ) : (
-          <p className="mt-2 text-xs font-semibold text-[#12603a]">Showing on the home page</p>
+          <p className="mt-2 text-xs font-semibold text-[#12603a]">
+            {inHighlights ? "Showing in the carousel and the Greek favourites row" : "Showing in the carousel"}
+          </p>
         )}
 
         <div className="mt-3 flex items-center gap-2">

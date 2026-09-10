@@ -2,11 +2,14 @@ import { unstable_cache } from "next/cache";
 import { publicClient, supabaseConfigured } from "@/lib/supabase/public";
 import { menu as fallbackMenu } from "@/data/menu";
 import { formatVariants } from "@/lib/price";
+import { slugify } from "@/lib/admin/menu-types";
 
 export type PublicAvailability = "available" | "sold_out_today" | "temporarily_unavailable";
 
 export type PublicItem = {
   name: string;
+  /** Stable per-item anchor, e.g. /menu#gyro-plate */
+  slug: string;
   description: string | null;
   badge: string | null;
   is_featured: boolean;
@@ -27,6 +30,7 @@ function fromFallback(): PublicCategory[] {
       const nums = (i.price.match(/\d+(?:\.\d+)?/g) ?? []).map(Number);
       return {
         name: i.name,
+        slug: slugify(i.name),
         description: i.description || null,
         badge: null,
         is_featured: Boolean(i.featured),
@@ -46,6 +50,7 @@ type DbCategory = {
   sort_order: number;
   menu_items: {
     name: string;
+    slug: string;
     description: string | null;
     badge: string | null;
     is_featured: boolean;
@@ -63,7 +68,7 @@ async function fetchLive(): Promise<PublicCategory[] | null> {
   const { data, error } = await db
     .from("menu_categories")
     .select(
-      "name, description, sort_order, menu_items(name, description, badge, is_featured, is_published, availability, sold_out_until, sort_order, menu_item_variants(name, price_cents, sort_order, is_available))",
+      "name, description, sort_order, menu_items(name, slug, description, badge, is_featured, is_published, availability, sold_out_until, sort_order, menu_item_variants(name, price_cents, sort_order, is_available))",
     )
     .eq("is_active", true)
     .order("sort_order");
@@ -93,6 +98,7 @@ async function fetchLive(): Promise<PublicCategory[] | null> {
           const prices = variants.map((v) => v.price_cents);
           return {
             name: i.name,
+            slug: i.slug,
             description: i.description ?? null,
             badge: i.badge ?? null,
             is_featured: i.is_featured,
@@ -110,7 +116,7 @@ async function fetchLive(): Promise<PublicCategory[] | null> {
 
 const cachedMenu = unstable_cache(
   async (): Promise<PublicCategory[]> => (await fetchLive()) ?? fromFallback(),
-  ["public-menu-v1"],
+  ["public-menu-v2"],
   { tags: ["menu"], revalidate: 3600 },
 );
 
@@ -119,6 +125,8 @@ export const getPublicMenu = () => cachedMenu();
 // ---- featured items for the homepage (only ones with a real image) ----------
 export type FeaturedItem = {
   name: string;
+  /** Deep link to this exact dish on the menu page. */
+  href: string;
   category: string;
   image_url: string;
   description: string | null;
@@ -131,7 +139,7 @@ const cachedFeatured = unstable_cache(
     const db = publicClient();
     const { data, error } = await db
       .from("menu_items")
-      .select("name, description, image_url, category:menu_categories(name), menu_item_variants(name, price_cents, sort_order)")
+      .select("name, slug, description, image_url, sort_order, category:menu_categories(name, sort_order), menu_item_variants(name, price_cents, sort_order)")
       .eq("is_featured", true)
       .eq("is_published", true)
       .not("image_url", "is", null)
@@ -141,16 +149,23 @@ const cachedFeatured = unstable_cache(
     if (error || !data) return [];
     return (data as unknown as {
       name: string;
+      slug: string;
       description: string | null;
       image_url: string;
-      category: { name: string } | null;
+      sort_order: number;
+      category: { name: string; sort_order: number } | null;
       menu_item_variants: { name: string; price_cents: number; sort_order: number }[];
-    }[]).map((i) => {
+    }[])
+      // Menu order, so the homepage matches what the admin screen lists.
+      // sort_order is per-category, so the category's own position comes first.
+      .sort((a, b) => (a.category?.sort_order ?? 0) - (b.category?.sort_order ?? 0) || a.sort_order - b.sort_order)
+      .map((i) => {
       const variants = [...(i.menu_item_variants ?? [])]
         .sort((a, b) => a.sort_order - b.sort_order)
         .map((v) => ({ name: v.name, price_cents: v.price_cents }));
       return {
         name: i.name,
+        href: `/menu#${i.slug}`,
         category: i.category?.name ?? "Greek Mansion",
         image_url: i.image_url,
         description: i.description ?? null,
@@ -158,7 +173,7 @@ const cachedFeatured = unstable_cache(
       };
     });
   },
-  ["public-featured-v1"],
+  ["public-featured-v2"],
   { tags: ["menu"], revalidate: 3600 },
 );
 

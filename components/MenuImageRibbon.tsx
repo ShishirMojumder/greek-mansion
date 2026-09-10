@@ -14,7 +14,7 @@ const galleries: Record<string, GalleryImage[]> = {
     food("tzatziki-pita.jpg", "Tzatziki & Pita"), food("spicy-tzatziki.jpg", "Spicy Tzatziki"),
     food("grilled-calamari.jpg", "Grilled Calamari"), food("chicken-wings.jpg", "Chicken Wings"),
   ],
-  "Mansion Wraps": [
+  "Mansion Pita Wraps": [
     food("greekmansion-chickenwrap-native.jpg", "Chicken Souvlaki Wrap"), food("chicken-fillet-wrap.jpg", "Chicken Fillet Wrap"),
     food("greekmansion-gyrowrap-native.jpg", "Gyro Wrap"), food("greekmansion-falafelwrap-native.jpg", "Falafel Wrap"),
     food("pork-1-stick-wrap.jpg", "Pork Souvlaki Wrap"), food("veggie-wrap.jpg", "Veggie Wrap"),
@@ -62,8 +62,8 @@ export function MenuImageRibbon({ category }: { category: string }) {
           <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/90 via-navy/55 to-transparent px-5 pb-4 pt-14 text-left font-label text-xs uppercase tracking-[.12em] text-white">{image.title}</figcaption>
         </motion.figure>)}
       </div>
-      <button type="button" onClick={() => move(-1)} aria-label={`Previous ${category} photos`} className="focus-ring absolute left-0 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-gold text-navy shadow-lg sm:grid"><ChevronLeft size={20}/></button>
-      <button type="button" onClick={() => move(1)} aria-label={`Next ${category} photos`} className="focus-ring absolute right-0 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-gold text-navy shadow-lg sm:grid"><ChevronRight size={20}/></button>
+      <button type="button" onClick={() => move(-1)} aria-label={`Previous ${category} photos`} className="focus-ring gold-plate absolute left-0 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full text-navy shadow-lg sm:grid"><ChevronLeft size={20}/></button>
+      <button type="button" onClick={() => move(1)} aria-label={`Next ${category} photos`} className="focus-ring gold-plate absolute right-0 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full text-navy shadow-lg sm:grid"><ChevronRight size={20}/></button>
     </div>
   </div>;
 }
