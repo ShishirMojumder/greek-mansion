@@ -8,7 +8,6 @@ import ArrowFillButton from "@/components/ui/arrow-fill-button";
 const ease = [0.22, 1, 0.36, 1] as const;
 const items = [
   { label: "Menu", href: "/menu" },
-  { label: "Play", href: "/game" },
   { label: "Catering", href: "/catering" },
   { label: "Blog", href: "/blog" },
   { label: "Our Story", href: "/about" },
