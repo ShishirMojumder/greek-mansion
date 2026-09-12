@@ -12,3 +12,6 @@ out
 .env.production
 .vercel
 .env*
+
+# Local AI assistant configuration
+.claude/
