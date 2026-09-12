@@ -14,7 +14,7 @@ const FIELDS: { name: string; label: string; type?: string; autoComplete?: strin
 ];
 
 const inputClass =
-  "mt-2 w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3.5 text-sm text-white outline-none transition focus:border-gold focus:bg-white/10";
+  "mt-2 w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3.5 text-sm text-white outline-none transition aria-[invalid=true]:border-[#E9A79F] focus:border-gold focus:bg-white/10";
 
 export default function CateringForm() {
   const [state, action, pending] = useActionState<EnquiryResult | null, FormData>(
@@ -49,7 +49,7 @@ export default function CateringForm() {
             required
             min={field.type === "number" ? 1 : undefined}
             aria-invalid={fieldError(field.name) ? true : undefined}
-            className={`${inputClass} ${fieldError(field.name) ? "!border-[#E9A79F]" : ""}`}
+            className={inputClass}
           />
         </label>
       ))}

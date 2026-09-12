@@ -7,6 +7,7 @@ import { requireAdmin } from "@/lib/auth";
 import { AVAILABILITY, BADGES, slugify } from "@/lib/admin/menu-types";
 import { nextResetUtc } from "@/lib/admin/soldout";
 import { dollarsToCents } from "@/lib/price";
+import { isAllowedMenuImageUrl } from "@/lib/image-url";
 
 // ---------------------------------------------------------------- availability
 export async function setAvailability(formData: FormData) {
@@ -69,9 +70,7 @@ export async function setItemImage(formData: FormData) {
   const { supabase, user } = await requireAdmin();
   const id = String(formData.get("id") ?? "");
   const image = String(formData.get("image_url") ?? "").trim();
-  // Only our own /images/... paths or Supabase storage URLs.
-  const allowed = image.startsWith("/images/") || image.startsWith(process.env.NEXT_PUBLIC_SUPABASE_URL ?? "\u0000");
-  if (!id || !image || !allowed) return;
+  if (!id || !image || !isAllowedMenuImageUrl(image)) return;
 
   const { data: before } = await supabase.from("menu_items").select("name, image_url").eq("id", id).maybeSingle();
   const { error } = await supabase.from("menu_items").update({ image_url: image }).eq("id", id);
@@ -99,7 +98,7 @@ const itemSchema = z.object({
   name: z.string().trim().min(1, "Name is required.").max(120),
   category_id: z.uuid("Choose a category."),
   description: z.string().trim().max(600).optional().or(z.literal("")),
-  image_url: z.string().trim().max(400).optional().or(z.literal("")),
+  image_url: z.string().trim().max(400).refine((value) => !value || isAllowedMenuImageUrl(value), "Choose an image from the library or upload one.").optional().or(z.literal("")),
   badge: z.enum(["", ...BADGES]).optional(),
   availability: z.enum(AVAILABILITY),
   is_featured: z.boolean(),

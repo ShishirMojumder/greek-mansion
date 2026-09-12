@@ -26,7 +26,7 @@ export default async function FeaturedPage({
           photo before it can appear.
         </p>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/55">
-          Order follows the menu: a dish's category position, then its position inside that category. Clicking any dish
+          Order follows the menu: a dish&apos;s category position, then its position inside that category. Clicking any dish
           on the home page opens the menu scrolled straight to it.
         </p>
       </div>

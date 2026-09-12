@@ -87,7 +87,15 @@ export function InfiniteMovingCards({items,direction="right",speed="slow"}:Props
  </ul>;
 
  return <div
+  role="region"
+  aria-label="Customer reviews. Drag horizontally or use the arrow keys to browse."
+  tabIndex={0}
   className="cursor-grab select-none overflow-hidden [touch-action:pan-y] active:cursor-grabbing"
+  onKeyDown={event=>{
+   if(event.key!=="ArrowLeft"&&event.key!=="ArrowRight")return;
+   event.preventDefault();
+   applyOffset(offset.current+(event.key==="ArrowLeft"?80:-80));
+  }}
   onPointerDown={event=>{
    setHeld(true);
    drag.current={id:event.pointerId,x:event.clientX,from:offset.current};

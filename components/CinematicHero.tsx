@@ -14,7 +14,7 @@ function MagneticLink({ href, children, primary = false }: { href: string; child
   const x = useSpring(useMotionValue(0), { stiffness: 180, damping: 16 });
   const y = useSpring(useMotionValue(0), { stiffness: 180, damping: 16 });
   return <motion.div style={{ x, y }} onMouseMove={(event) => {const rect=event.currentTarget.getBoundingClientRect();x.set((event.clientX-rect.left-rect.width/2)*.18);y.set((event.clientY-rect.top-rect.height/2)*.18)}} onMouseLeave={() => {x.set(0);y.set(0)}}>
-    <Link href={href} className={`hero-glass focus-ring flex items-center gap-4 rounded-full px-7 py-4 text-xs uppercase tracking-[.18em] ${primary ? "!border-gold !bg-gold text-ink" : "border-white/40 !bg-white/10 text-white"}`}>{children}<ArrowUpRight size={15}/></Link>
+    <Link href={href} className={`hero-glass focus-ring flex items-center gap-4 rounded-full px-7 py-4 text-xs uppercase tracking-[.18em] ${primary ? "border-gold bg-gold text-ink" : "border-white/40 bg-white/10 text-white"}`}>{children}<ArrowUpRight size={15}/></Link>
   </motion.div>;
 }
 
@@ -44,7 +44,7 @@ export default function CinematicHero() {
       <div className="hero-marquee flex w-max font-label text-[10px] uppercase tracking-[.27em] text-white/65"><MarqueeSet/><MarqueeSet/></div>
     </motion.div>
     <div ref={contentRef} className="relative z-20 mx-auto flex min-h-[calc(100svh-80px)] max-w-[1400px] flex-col items-center justify-center px-5 pb-10 pt-16 text-center md:px-10 md:pb-10 md:pt-24 lg:px-16">
-      <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .2, duration: .8, ease }} className="mb-4 md:mb-5"><p className="eyebrow !text-white/75">Scarborough · Toronto</p></motion.div>
+      <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .2, duration: .8, ease }} className="mb-4 md:mb-5"><p className="eyebrow eyebrow-light">Scarborough · Toronto</p></motion.div>
       <motion.h1 className="display max-w-[790px] text-[clamp(4.2rem,16vw,5.4rem)] uppercase text-white sm:text-[clamp(4.1rem,9vw,8.6rem)]" initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .3, duration: 1.05, ease }}>{/* One word per line on phones; the original two-line setting from sm up.
         The block sits on a wrapper so it never fights .accent's inline-block. */}<span className="block sm:inline">Fresh </span><span className="block sm:inline"><span className="accent">Greek</span></span><br className="hidden sm:inline"/><span className="text-gold"><span className="block sm:inline">Fair </span><span className="block sm:inline"><span className="accent">Prices</span></span></span></motion.h1>
       <motion.p className="mt-6 max-w-xl text-sm leading-6 text-white/75 md:mt-5 md:text-base md:leading-7" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .58, duration: .75, ease }}>Flame-grilled souvlaki, gyros and mezze—made fresh every day.<br/>Generous Greek plates, priced for the whole table.</motion.p>

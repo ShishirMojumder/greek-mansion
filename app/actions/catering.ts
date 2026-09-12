@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { serviceClient } from "@/lib/supabase/service";
+import { publicClient } from "@/lib/supabase/public";
 import { cateringMessage, sendTelegram, telegramConfigured } from "@/lib/notify/telegram";
 
 const trimmed = (max: number) => z.string().trim().min(1).max(max);
@@ -50,7 +50,9 @@ export async function submitCateringEnquiry(
   }
 
   try {
-    const db = serviceClient();
+    // Keep the public form on the anonymous role so the insert-only RLS policy
+    // remains the authorization boundary. This path does not need service access.
+    const db = publicClient();
     const { error } = await db.from("catering_enquiries").insert({
       ...parsed.data,
       message: parsed.data.message ?? null,

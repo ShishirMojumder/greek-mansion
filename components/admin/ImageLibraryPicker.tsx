@@ -35,7 +35,9 @@ export function ImageLibraryPicker({
   return (
     <div className="rounded-xl border border-navy/15 bg-marble/60 p-3">
       <div className="flex flex-wrap items-center gap-2">
+        <label htmlFor="image-library-search" className="sr-only">Search image library</label>
         <input
+          id="image-library-search"
           autoFocus
           value={q}
           onChange={(e) => setQ(e.target.value)}
@@ -68,12 +70,13 @@ export function ImageLibraryPicker({
                       type="button"
                       onClick={() => onPick(image.url)}
                       title={image.label}
+                      aria-label={`Use ${image.label} image`}
                       className={`group overflow-hidden rounded-lg border bg-white text-left transition ${
                         active ? "border-gold ring-2 ring-gold/40" : "border-navy/12 hover:border-gold"
                       }`}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={image.url} alt="" loading="lazy" className="h-16 w-full object-cover" />
+                      <img src={image.url} alt={image.label} loading="lazy" className="h-16 w-full object-cover" />
                       <span className="block truncate px-1.5 py-1 text-[10px] capitalize text-ink/55">
                         {image.label}
                       </span>

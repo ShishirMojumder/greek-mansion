@@ -9,8 +9,9 @@ export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
   const secret = process.env.CRON_SECRET;
   const auth = request.headers.get("authorization");
-  const key = new URL(request.url).searchParams.get("key");
-  if (secret && auth !== `Bearer ${secret}` && key !== secret) {
+  // Fail closed. A missing deployment secret must never turn this privileged
+  // service-role endpoint into a public write API.
+  if (!secret || auth !== `Bearer ${secret}`) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -22,10 +23,14 @@ export async function GET(request: Request) {
       .eq("availability", "sold_out_today")
       .lt("sold_out_until", new Date().toISOString())
       .select("id");
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) {
+      console.error("sold-out reset failed", error);
+      return NextResponse.json({ error: "reset_failed" }, { status: 500 });
+    }
     revalidateTag("menu");
     return NextResponse.json({ ok: true, cleared: data?.length ?? 0 });
-  } catch (e) {
-    return NextResponse.json({ error: (e as Error).message }, { status: 500 });
+  } catch (error) {
+    console.error("sold-out reset failed", error);
+    return NextResponse.json({ error: "reset_failed" }, { status: 500 });
   }
 }

@@ -12,7 +12,6 @@ export function readSourceMenu() {
   const src = readFileSync(join(ROOT, "data/menu.ts"), "utf8");
   const m = src.match(/export\s+const\s+menu[^=]*=\s*(\[[\s\S]*?\])\s*;?\s*$/m);
   if (!m) throw new Error("Could not locate `export const menu = [...]` in data/menu.ts");
-  // eslint-disable-next-line no-new-func — our own source file, no external input
   return new Function(`return (${m[1]})`)();
 }
 
