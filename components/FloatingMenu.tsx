@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Facebook, Instagram } from "lucide-react";
 import ArrowFillButton from "@/components/ui/arrow-fill-button";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -43,10 +44,19 @@ export default function FloatingMenu() {
       <div className={`relative z-10 flex flex-1 flex-col items-center justify-center gap-6 overflow-hidden ${open ? "pointer-events-auto" : "pointer-events-none"}`}>
         <AnimatePresence>{open && items.map((item, index) => <RollingLabel key={item.href} label={item.label} index={index} close={() => setOpen(false)}/>)}</AnimatePresence>
       </div>
-      <button type="button" aria-expanded={open} aria-label={open ? "Close navigation menu" : "Open navigation menu"} onClick={() => setOpen(value => !value)} className="relative z-10 flex h-[50px] w-full shrink-0 items-center justify-between px-5">
-        <motion.span className="text-sm font-semibold uppercase tracking-[.14em]" animate={{ color: open ? "#F8F5ED" : "#111936" }}>{open ? "Explore" : "Menu"}</motion.span>
-        <span className="relative h-6 w-6"><motion.span className="absolute left-[3px] top-[11px] block h-[1.5px] w-[18px] rounded-full" animate={{ rotate: open ? 45 : 0, y: open ? 0 : -3, backgroundColor: open ? "#F8F5ED" : "#111936" }} transition={{ duration: .35, ease }}/><motion.span className="absolute left-[3px] top-[11px] block h-[1.5px] w-[18px] rounded-full" animate={{ rotate: open ? -45 : 0, y: open ? 0 : 3, backgroundColor: open ? "#F8F5ED" : "#111936" }} transition={{ duration: .35, ease }}/></span>
-      </button>
+      <div className="relative z-10 flex h-[50px] w-full shrink-0 items-center justify-between px-5">
+        {open ? <div className="flex items-center gap-2">
+          <a href="https://www.facebook.com/profile.php?id=61593538364319" target="_blank" rel="noreferrer" aria-label="Visit Greek Mansion on Facebook" className="focus-ring inline-flex h-9 w-9 items-center justify-center rounded-full border border-marble/35 text-marble transition hover:border-gold hover:bg-gold hover:text-navy">
+            <Facebook size={18} aria-hidden="true"/>
+          </a>
+          <a href="https://www.instagram.com/greekmansion/" target="_blank" rel="noreferrer" aria-label="Visit Greek Mansion on Instagram" className="focus-ring inline-flex h-9 w-9 items-center justify-center rounded-full border border-marble/35 text-marble transition hover:border-gold hover:bg-gold hover:text-navy">
+            <Instagram size={18} aria-hidden="true"/>
+          </a>
+        </div> : <span className="text-sm font-semibold uppercase tracking-[.14em] text-navy">Menu</span>}
+        <button type="button" aria-expanded={open} aria-label={open ? "Close navigation menu" : "Open navigation menu"} onClick={() => setOpen(value => !value)} className="focus-ring inline-flex h-10 w-10 items-center justify-center rounded-full">
+          <span className="relative h-6 w-6"><motion.span className="absolute left-[3px] top-[11px] block h-[1.5px] w-[18px] rounded-full" animate={{ rotate: open ? 45 : 0, y: open ? 0 : -3, backgroundColor: open ? "#F8F5ED" : "#111936" }} transition={{ duration: .35, ease }}/><motion.span className="absolute left-[3px] top-[11px] block h-[1.5px] w-[18px] rounded-full" animate={{ rotate: open ? -45 : 0, y: open ? 0 : 3, backgroundColor: open ? "#F8F5ED" : "#111936" }} transition={{ duration: .35, ease }}/></span>
+        </button>
+      </div>
     </motion.div>
   </motion.div>;
 }

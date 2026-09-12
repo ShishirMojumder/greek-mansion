@@ -10,6 +10,7 @@ const NAV = [
   { href: "/gm-admin/categories", label: "Categories" },
   { href: "/gm-admin/specials", label: "Specials" },
   { href: "/gm-admin/enquiries", label: "Enquiries" },
+  { href: "/gm-admin/blog", label: "Blog" },
 ];
 
 export function AdminNav() {

@@ -4,23 +4,23 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/Button";
-import { posts, getPost } from "@/data/blog";
+import { getBlogPost, getBlogPosts } from "@/lib/blog";
 
-export function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  return (await getBlogPosts()).map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getBlogPost(slug);
   if (!post) return { title: "Post not found" };
   return {
-    title: post.title,
-    description: post.excerpt,
+    title: post.metaTitle ?? post.title,
+    description: post.metaDescription ?? post.excerpt,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       title: post.title,
-      description: post.excerpt,
+      description: post.metaDescription ?? post.excerpt,
       type: "article",
       publishedTime: post.date,
       images: [post.cover],
@@ -32,7 +32,7 @@ const fmt = (iso: string) => new Date(iso).toLocaleDateString("en-CA", { year: "
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getBlogPost(slug);
   if (!post) notFound();
 
   const schema = {

@@ -44,6 +44,7 @@ export default async function Dashboard() {
           <Task href="/gm-admin/featured" title="Change homepage highlights" body="Swap the dishes shown on the home page." />
           <Task href="/gm-admin/specials" title="Update specials" body="What's promoted on the site right now." />
           <Task href="/gm-admin/categories" title="Reorder the menu" body="Rename categories or change their order." />
+          <Task href="/gm-admin/blog/new" title="Write an SEO blog post" body="Draft, optimize and publish a new article." />
         </div>
       </section>
 
