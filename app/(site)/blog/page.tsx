@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { PageHero } from "@/components/PageHero";
-import { getBlogPosts } from "@/lib/blog";
+import { posts } from "@/data/blog";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -13,8 +13,7 @@ export const metadata: Metadata = {
 
 const fmt = (iso: string) => new Date(iso).toLocaleDateString("en-CA", { year: "numeric", month: "long", day: "numeric" });
 
-export default async function BlogIndex() {
-  const posts = await getBlogPosts();
+export default function BlogIndex() {
   return <>
     <PageHero
       eyebrow="From the mansion"
